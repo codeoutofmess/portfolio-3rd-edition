@@ -1,0 +1,42 @@
+---
+title: "Reverse-engineering a design system from a live product"
+summary: "Beatstars never had a documented design system, just years of shipped UI. I took the site apart to build the system that should have existed from the start."
+client: "Beatstars"
+kind: "university"
+role: ["Audit", "Design system", "Prototyping"]
+year: "2023"
+duration: "2 weeks"
+tags: ["Design Systems", "Audit", "Prototyping"]
+coverImage: "/images/work/beatstars-design-system/cover.png"
+coverAlt: "Design system components extracted from the Beatstars website"
+links:
+  prototype: "https://www.figma.com/proto/B02VqG7b1MFdyVcJa0hwEV/Beatstars-Design-System?page-id=0%3A1&node-id=208-564&p=f&viewport=440%2C417%2C0.07&t=bWcl6FqeGazUibDy-1&scaling=min-zoom&content-scaling=fixed&starting-point-node-id=1%3A2"
+featured: true
+order: 3
+---
+
+Beatstars is a marketplace where producers sell beats, and like a lot of products that grow fast, its UI had outrun its documentation. There was no style guide, no component library, nothing a new designer or engineer could open to understand why a button looks the way it does. Just years of decisions baked into the live site.
+
+Two weeks wasn't enough to fix that, but it was enough to document it properly — which is arguably the more useful deliverable anyway, since you can't fix inconsistency you haven't mapped.
+
+## Learning the site before touching it
+
+I spent the first few days just using Beatstars the way a customer would, then going back through it screen by screen with a much more annoying eye: which button styles actually repeat, which ones are one-offs, where the type scale drifts, where two components are doing the same job with slightly different padding. That inventory is tedious but it's the part that actually matters — guessing at a system without it just produces another inconsistent one.
+
+The patterns were the usual growing-product symptoms: three fonts where there should be two, a colour palette that had crept past what the brand probably intended, buttons that were functionally identical but visually not.
+
+## Building the reference
+
+The output was a system built around five foundations — colour, type, icons, photography, and voice/tone — and five core components: buttons, tags, cards, badges, and controls. Each one documented with the variants that already existed in production, not invented from scratch, so it would actually match what engineering had already shipped rather than asking them to redo work.
+
+The point of a document like this is that a developer or designer can open it and know exactly which button to use where, instead of eyeballing the closest existing example and copying its inconsistencies forward.
+
+<div className="gif-preview">
+  <img src="/images/work/beatstars-design-system/prototype-preview.gif" alt="Animated walkthrough of the Beatstars design system document in Figma" width="480" />
+</div>
+
+The [full design system is on Figma](https://www.figma.com/proto/B02VqG7b1MFdyVcJa0hwEV/Beatstars-Design-System?page-id=0%3A1&node-id=208-564&p=f&viewport=440%2C417%2C0.07&t=bWcl6FqeGazUibDy-1&scaling=min-zoom&content-scaling=fixed&starting-point-node-id=1%3A2) — happy to walk through how the components map to the live site.
+
+## What this one taught me
+
+Mostly that a design system is worth almost nothing if it doesn't reflect the product as it actually ships — the temptation to "clean it up" while documenting it is strong, and mostly wrong. Two weeks was tight for a site this size, which forced some useful triage on what actually needed documenting first.

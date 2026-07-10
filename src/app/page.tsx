@@ -1,65 +1,99 @@
-import Image from "next/image";
+"use client";
 
-export default function Home() {
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { BracketPanel } from "@/components/hud/bracket-panel";
+import { site } from "@/lib/site";
+
+const BUILD_DATE = new Intl.DateTimeFormat("en-US", {
+  month: "long",
+  year: "numeric",
+}).format(new Date());
+
+export default function LandingPage() {
+  const router = useRouter();
+
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.code === "Space") {
+        e.preventDefault();
+        router.push("/menu");
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [router]);
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+    <main
+      onClick={() => router.push("/menu")}
+      className="relative flex min-h-screen cursor-pointer flex-col justify-between p-6 sm:p-10"
+    >
+      <div className="fade-up flex items-start justify-between" style={{ animationDelay: "0ms" }}>
+        <div>
+          <p className="text-xs italic text-ink-soft">CREATED BY</p>
+          <p className="text-sm font-semibold tracking-wide text-ink">
+            {site.name.toUpperCase()}
           </p>
+          <p className="mt-3 text-xs text-ink-dim">{BUILD_DATE.toUpperCase()}</p>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
+
+        <div
+          className="flex flex-col items-end gap-3"
+          onClick={(e) => e.stopPropagation()}
+        >
+          {site.availableToWork && (
+            <BracketPanel tinted className="border border-line px-4 py-2">
+              <span className="text-xs tracking-widest text-accent">
+                AVAILABLE TO WORK
+              </span>
+            </BracketPanel>
+          )}
           <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+            href="/contact"
+            className="text-sm tracking-wide text-ink underline decoration-ink-dim underline-offset-4 hover:text-accent"
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
+            GET IN TOUCH
           </a>
         </div>
-      </main>
-    </div>
+      </div>
+
+      <div
+        className="fade-up pointer-events-none text-center"
+        style={{ animationDelay: "150ms" }}
+      >
+        <h1 className="text-xl font-medium tracking-[0.15em] text-ink sm:text-3xl">
+          {site.tagline.toUpperCase()}
+        </h1>
+      </div>
+
+      <div className="fade-up flex items-end justify-between" style={{ animationDelay: "300ms" }}>
+        <BracketPanel tinted className="border border-line px-5 py-4">
+          <p className="text-xs tracking-wide text-ink-soft">DESIGNER // DEVELOPER</p>
+          <p className="mt-1 text-xs tracking-wide text-ink-soft">PORTFOLIO</p>
+          <p className="mt-1 text-xs tracking-wide text-accent">{site.edition}</p>
+        </BracketPanel>
+
+        <div className="flex flex-col items-center gap-4">
+          <p className="text-xs italic tracking-wide text-ink-dim">
+            CLICK HERE OR PRESS SPACE BAR TO EXPLORE
+          </p>
+          <div className="flex h-14 w-14 items-center justify-center rounded-full border border-line">
+            <svg
+              viewBox="0 0 24 24"
+              className="h-6 w-6 text-ink-soft"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.2"
+            >
+              <circle cx="12" cy="12" r="9" />
+              <path d="M15 9l-4.5 1.5L9 15l4.5-1.5L15 9z" fill="currentColor" stroke="none" />
+            </svg>
+          </div>
+        </div>
+
+        <div className="hidden w-40 sm:block" aria-hidden />
+      </div>
+    </main>
   );
 }
