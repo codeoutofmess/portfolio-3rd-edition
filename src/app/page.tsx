@@ -69,9 +69,9 @@ export default function LandingPage() {
 
       <div className="fade-up flex items-end justify-between" style={{ animationDelay: "300ms" }}>
         <BracketPanel tinted className="border border-line px-5 py-4">
-          <p className="text-xs tracking-wide text-ink-soft">DESIGNER // DEVELOPER</p>
+          <p className="text-xs tracking-wide text-accent">DESIGNER // DEVELOPER</p>
           <p className="mt-1 text-xs tracking-wide text-ink-soft">PORTFOLIO</p>
-          <p className="mt-1 text-xs tracking-wide text-accent">{site.edition}</p>
+          <p className="mt-1 text-xs tracking-wide text-ink-soft">{site.edition}</p>
         </BracketPanel>
 
         <div className="flex flex-col items-center gap-4">
