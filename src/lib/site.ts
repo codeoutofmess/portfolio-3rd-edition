@@ -11,5 +11,5 @@ export const site = {
   },
   resumeUrl: "",
   availableToWork: true,
-  edition: "PORTFOLIO // V2",
+  edition: "2ND EDITION",
 };

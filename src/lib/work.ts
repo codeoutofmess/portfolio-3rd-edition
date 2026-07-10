@@ -6,9 +6,9 @@ import type { Project, ProjectFrontmatter } from "@/types/work";
 
 const WORK_DIR = path.join(process.cwd(), "src/content/work");
 
-function coverImageExists(coverImage?: string): boolean {
-  if (!coverImage) return false;
-  return fs.existsSync(path.join(process.cwd(), "public", coverImage));
+function publicImageExists(imagePath?: string): boolean {
+  if (!imagePath) return false;
+  return fs.existsSync(path.join(process.cwd(), "public", imagePath));
 }
 
 function readProjectFile(filename: string): Project {
@@ -19,9 +19,10 @@ function readProjectFile(filename: string): Project {
 
   return {
     ...frontmatter,
-    coverImage: coverImageExists(frontmatter.coverImage)
+    coverImage: publicImageExists(frontmatter.coverImage)
       ? frontmatter.coverImage
       : undefined,
+    logo: publicImageExists(frontmatter.logo) ? frontmatter.logo : undefined,
     slug,
     content,
     readingTime: readingTime(content).text,

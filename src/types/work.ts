@@ -18,6 +18,7 @@ export interface ProjectFrontmatter {
   tags: string[];
   coverImage?: string;
   coverAlt?: string;
+  logo?: string;
   links?: ProjectLinks;
   featured?: boolean;
   order?: number;
