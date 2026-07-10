@@ -15,7 +15,7 @@ export function MenuShell({ children, size = "compact" }: MenuShellProps) {
       <BracketPanel
         className={
           size === "compact"
-            ? "flex h-[480px] max-h-[80vh] w-[min(700px,92vw)] flex-col overflow-y-auto border border-line bg-panel/70 p-8 sm:p-10"
+            ? "flex h-[540px] max-h-[80vh] w-[min(700px,92vw)] flex-col overflow-y-auto border border-line bg-panel/70 p-8 sm:p-10"
             : "w-[min(768px,92vw)] border border-line bg-panel/60 p-6 sm:p-10"
         }
       >

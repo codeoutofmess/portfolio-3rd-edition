@@ -62,15 +62,29 @@ export default async function CasePage({
           </div>
         </dl>
 
-        {project.links?.prototype && (
-          <a
-            href={project.links.prototype}
-            target="_blank"
-            rel="noreferrer"
-            className="mt-6 inline-block rounded border border-line px-4 py-2.5 text-sm tracking-widest text-accent hover:bg-white/5"
-          >
-            VIEW PROTOTYPE ↗
-          </a>
+        {(project.links?.live || project.links?.prototype) && (
+          <div className="mt-6 flex flex-wrap gap-3">
+            {project.links.live && (
+              <a
+                href={project.links.live}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-block rounded border border-line px-4 py-2.5 text-sm tracking-widest text-accent hover:bg-white/5"
+              >
+                VIEW LIVE SITE ↗
+              </a>
+            )}
+            {project.links.prototype && (
+              <a
+                href={project.links.prototype}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-block rounded border border-line px-4 py-2.5 text-sm tracking-widest text-accent hover:bg-white/5"
+              >
+                VIEW PROTOTYPE ↗
+              </a>
+            )}
+          </div>
         )}
 
         <div className="prose prose-invert mt-9 max-w-none tracking-wide prose-headings:font-mono prose-headings:tracking-wide prose-headings:text-ink prose-p:text-base prose-p:leading-loose prose-p:text-ink-soft prose-a:text-accent prose-strong:text-ink prose-li:text-base prose-li:text-ink-soft prose-img:rounded-md prose-img:border prose-img:border-line">

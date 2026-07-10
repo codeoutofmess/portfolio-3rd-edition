@@ -53,29 +53,29 @@ export function HudCardMenu({ items, backHref }: HudCardMenuProps) {
   }, [index, items, router, backHref]);
 
   return (
-    <div className="flex h-full flex-col items-center justify-center gap-8">
-      <div className="flex flex-wrap items-stretch justify-center gap-4">
+    <div className="flex h-full flex-col items-center justify-center gap-6">
+      <div className="flex flex-nowrap items-stretch justify-center gap-2.5 sm:gap-3">
         {items.map((item, i) => (
           <Link
             key={item.href}
             href={item.href}
             onPointerEnter={() => setIndex(i)}
             title={item.label}
-            className="block"
+            className="block shrink-0"
           >
             <BracketPanel
               tinted={i === index}
-              className={`flex h-32 w-32 flex-col items-center justify-center gap-2 border p-3 text-center transition-colors sm:h-36 sm:w-36 ${
+              className={`flex h-24 w-24 flex-col items-center justify-center gap-1.5 border p-2 text-center transition-colors sm:h-28 sm:w-28 ${
                 i === index ? "border-accent/60" : "border-line"
               }`}
             >
               {item.logo ? (
-                <div className="relative h-14 w-14">
+                <div className="relative h-10 w-10">
                   <Image src={item.logo} alt={item.label} fill className="object-contain" />
                 </div>
               ) : (
                 <span
-                  className={`px-1 text-sm font-bold leading-snug tracking-wide ${
+                  className={`px-1 text-[11px] font-bold leading-snug tracking-wide ${
                     i === index ? "text-accent" : "text-ink-dim"
                   }`}
                 >
