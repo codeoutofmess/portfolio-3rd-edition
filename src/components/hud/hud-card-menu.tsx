@@ -20,26 +20,45 @@ interface HudCardMenuProps {
   backHref?: string;
 }
 
+const VISIBLE = 3;
+const CARD_PX = 144; // h-36/w-36
+const GAP_PX = 16; // gap-4
+
 /**
- * Horizontal row of logo cards, navigable with left/right arrows, Enter, Esc.
- * A detail panel below the row shows the highlighted project's description
- * and tags, updating live as the selection changes — keeps the cards small
- * and uniform while still surfacing real content, all within the same
- * fixed-size box (no per-card copy that would force cards to grow).
+ * A 3-card viewport onto the project list, sliding to reveal more as you
+ * move past the edges — so the card size and description panel stay
+ * identical no matter how many projects exist. A detail panel below the
+ * row shows the highlighted project's description and tags in a
+ * fixed-height area (no reflow between short and long copy), and left/right
+ * chevrons make it obvious there's more to see.
  */
 export function HudCardMenu({ items, backHref }: HudCardMenuProps) {
   const [index, setIndex] = useState(0);
+  const [windowStart, setWindowStart] = useState(0);
   const router = useRouter();
   const active = items[index];
+
+  // windowStart is derived from index, but updated in the same event as
+  // index (not via a reactive effect) so scrolling the 3-card viewport
+  // stays a single, atomic state change per interaction.
+  function selectIndex(next: number) {
+    const clamped = Math.max(0, Math.min(next, items.length - 1));
+    setIndex(clamped);
+    setWindowStart((prev) => {
+      if (clamped < prev) return clamped;
+      if (clamped > prev + VISIBLE - 1) return clamped - VISIBLE + 1;
+      return prev;
+    });
+  }
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "ArrowRight") {
         e.preventDefault();
-        setIndex((i) => (i + 1) % items.length);
+        selectIndex(index + 1);
       } else if (e.key === "ArrowLeft") {
         e.preventDefault();
-        setIndex((i) => (i - 1 + items.length) % items.length);
+        selectIndex(index - 1);
       } else if (e.key === "Enter") {
         e.preventDefault();
         router.push(items[index].href);
@@ -50,52 +69,96 @@ export function HudCardMenu({ items, backHref }: HudCardMenuProps) {
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [index, items, router, backHref]);
+
+  const canGoLeft = windowStart > 0;
+  const canGoRight = windowStart + VISIBLE < items.length;
+  const viewportWidth = VISIBLE * CARD_PX + (VISIBLE - 1) * GAP_PX;
 
   return (
     <div className="flex h-full flex-col items-center justify-center gap-6">
-      <div className="flex flex-nowrap items-stretch justify-center gap-2.5 sm:gap-3">
-        {items.map((item, i) => (
-          <Link
-            key={item.href}
-            href={item.href}
-            onPointerEnter={() => setIndex(i)}
-            title={item.label}
-            className="block shrink-0"
+      <div className="flex items-center gap-2">
+        <button
+          type="button"
+          onClick={() => selectIndex(index - 1)}
+          disabled={!canGoLeft}
+          aria-label="Previous project"
+          className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-line text-ink-dim transition-opacity ${
+            canGoLeft ? "hover:border-accent/60 hover:text-accent" : "opacity-0"
+          }`}
+        >
+          ←
+        </button>
+
+        <div
+          className="overflow-hidden"
+          style={{ width: `${viewportWidth}px` }}
+        >
+          <div
+            className="flex gap-4 transition-transform duration-300 ease-out"
+            style={{
+              transform: `translateX(-${windowStart * (CARD_PX + GAP_PX)}px)`,
+            }}
           >
-            <BracketPanel
-              tinted={i === index}
-              className={`flex h-24 w-24 flex-col items-center justify-center gap-1.5 border p-2 text-center transition-colors sm:h-28 sm:w-28 ${
-                i === index ? "border-accent/60" : "border-line"
-              }`}
-            >
-              {item.logo ? (
-                <div className="relative h-10 w-10">
-                  <Image src={item.logo} alt={item.label} fill className="object-contain" />
-                </div>
-              ) : (
-                <span
-                  className={`px-1 text-[11px] font-bold leading-snug tracking-wide ${
-                    i === index ? "text-accent" : "text-ink-dim"
+            {items.map((item, i) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                onPointerEnter={() => selectIndex(i)}
+                title={item.label}
+                className="block shrink-0"
+                style={{ width: `${CARD_PX}px` }}
+              >
+                <BracketPanel
+                  tinted={i === index}
+                  className={`flex h-36 w-36 flex-col items-center justify-center gap-2 border p-3 text-center transition-colors ${
+                    i === index ? "border-accent/60" : "border-line"
                   }`}
                 >
-                  {item.fallback}
-                </span>
-              )}
-              <span className="sr-only">{item.label}</span>
-            </BracketPanel>
-          </Link>
-        ))}
+                  {item.logo ? (
+                    <div className="relative h-14 w-14">
+                      <Image src={item.logo} alt={item.label} fill className="object-contain" />
+                    </div>
+                  ) : (
+                    <span
+                      className={`px-1 text-sm font-bold leading-snug tracking-wide ${
+                        i === index ? "text-accent" : "text-ink-dim"
+                      }`}
+                    >
+                      {item.fallback}
+                    </span>
+                  )}
+                  <span className="sr-only">{item.label}</span>
+                </BracketPanel>
+              </Link>
+            ))}
+          </div>
+        </div>
+
+        <button
+          type="button"
+          onClick={() => selectIndex(index + 1)}
+          disabled={!canGoRight}
+          aria-label="Next project"
+          className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-line text-ink-dim transition-opacity ${
+            canGoRight ? "hover:border-accent/60 hover:text-accent" : "opacity-0"
+          }`}
+        >
+          →
+        </button>
       </div>
 
-      <div key={active.href} className="fade-up w-full max-w-md text-center">
+      <div className="w-full max-w-md text-center">
         <p className="text-xs font-semibold tracking-widest text-ink">
           {active.label.toUpperCase()}
         </p>
-        <p className="mt-2 text-sm leading-relaxed text-ink-soft">
-          {active.summary}
-        </p>
-        <div className="mt-4 flex flex-wrap items-center justify-center gap-2">
+        <div className="mt-2 flex h-24 items-start justify-center overflow-hidden">
+          <p key={active.href} className="fade-up text-sm leading-relaxed text-ink-soft">
+            {active.summary}
+          </p>
+        </div>
+        <div className="flex min-h-[3.25rem] flex-wrap items-center justify-center gap-2">
           {active.tags.map((tag) => (
             <span
               key={tag}

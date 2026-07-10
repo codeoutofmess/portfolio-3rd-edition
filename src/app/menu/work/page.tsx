@@ -5,6 +5,7 @@ import { getAllProjects } from "@/lib/work";
 
 /** Until real logo files are dropped in, these labels stand in for them. */
 const LOGO_FALLBACK: Record<string, string> = {
+  "boombapbombay": "BOOM BAP BOMBAY",
   "consumer-nz-ia": "CONSUMER NZ",
   "candidacy-information": "CITY COUNCIL",
   "beatstars-design-system": "BEATSTARS",

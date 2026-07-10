@@ -1,17 +1,21 @@
 import type { Metadata } from "next";
 import fs from "fs";
 import path from "path";
+import Image from "next/image";
 import { ShellBox } from "@/components/hud/shell-box";
 import { site } from "@/lib/site";
 
 export const metadata: Metadata = { title: "Resume" };
 
-function resumeExists(): boolean {
-  return fs.existsSync(path.join(process.cwd(), "public", site.resumeUrl));
+const PREVIEW_URL = "/resume-preview.png";
+
+function fileExists(publicPath: string): boolean {
+  return fs.existsSync(path.join(process.cwd(), "public", publicPath));
 }
 
 export default function ResumePage() {
-  const hasResume = resumeExists();
+  const hasResume = fileExists(site.resumeUrl);
+  const hasPreview = fileExists(PREVIEW_URL);
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center gap-6 p-6">
@@ -29,12 +33,15 @@ export default function ResumePage() {
           )}
         </div>
 
-        {hasResume ? (
-          <div className="mt-6 overflow-hidden rounded-md border border-line bg-white">
-            <embed
-              src={site.resumeUrl}
-              type="application/pdf"
-              className="h-[70vh] w-full"
+        {hasResume && hasPreview ? (
+          <div className="mt-6 flex justify-center">
+            <Image
+              src={PREVIEW_URL}
+              alt="Pradyumna Vishwanath's resume"
+              width={1855}
+              height={2400}
+              className="w-full max-w-md rounded-md border border-line"
+              priority
             />
           </div>
         ) : (
