@@ -9,7 +9,7 @@ export const site = {
     behance: "https://www.behance.net/pradyumvishwan",
     github: "",
   },
-  resumeUrl: "",
+  resumeUrl: "/resume.pdf",
   availableToWork: true,
   edition: "2ND EDITION",
 };

@@ -10,6 +10,7 @@ export default function MenuPage() {
           items={[
             { label: "About me", href: "/about" },
             { label: "Work", href: "/menu/work" },
+            { label: "Resume", href: "/resume" },
             { label: "Contact", href: "/contact" },
           ]}
           backHref="/"
