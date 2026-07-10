@@ -16,17 +16,17 @@ export default function WorkMenuPage() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-center gap-6 p-6">
       <ShellBox backHref="/menu" size="compact">
-        <div className="flex h-full items-center justify-center">
-          <HudCardMenu
-            items={projects.map((p) => ({
-              label: p.title,
-              href: `/case/${p.slug}`,
-              logo: p.logo,
-              fallback: LOGO_FALLBACK[p.slug] ?? p.title.charAt(0).toUpperCase(),
-            }))}
-            backHref="/menu"
-          />
-        </div>
+        <HudCardMenu
+          items={projects.map((p) => ({
+            label: p.title,
+            href: `/case/${p.slug}`,
+            logo: p.logo,
+            fallback: LOGO_FALLBACK[p.slug] ?? p.title.charAt(0).toUpperCase(),
+            summary: p.summary,
+            tags: p.tags,
+          }))}
+          backHref="/menu"
+        />
       </ShellBox>
       <KeyHintGrid top={["Esc", "↑", "Enter"]} bottom={["←", "↓", "→"]} />
     </main>
