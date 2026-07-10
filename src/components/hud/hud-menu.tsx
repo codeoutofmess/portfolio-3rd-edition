@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { BracketPanel } from "./bracket-panel";
 
 export interface HudMenuItem {
   label: string;
@@ -15,7 +14,8 @@ interface HudMenuProps {
   backHref?: string;
 }
 
-/** Arrow-key/Enter/Esc navigable list, styled as a HUD panel. Mouse works too. */
+/** Arrow-key/Enter/Esc navigable list. Renders bare — the caller supplies
+ *  the surrounding box (see MenuShell / ShellBox). Mouse works too. */
 export function HudMenu({ items, backHref }: HudMenuProps) {
   const [index, setIndex] = useState(0);
   const router = useRouter();
@@ -41,24 +41,22 @@ export function HudMenu({ items, backHref }: HudMenuProps) {
   }, [index, items, router, backHref]);
 
   return (
-    <BracketPanel className="w-full max-w-xl border border-line bg-panel/70 p-8 sm:p-10">
-      <ul className="space-y-1">
-        {items.map((item, i) => (
-          <li key={item.href}>
-            <Link
-              href={item.href}
-              onPointerEnter={() => setIndex(i)}
-              className={`block rounded-sm px-4 py-2.5 text-sm tracking-[0.15em] transition-colors ${
-                i === index
-                  ? "bg-white/10 text-ink"
-                  : "text-ink-dim hover:text-ink-soft"
-              }`}
-            >
-              {item.label.toUpperCase()}
-            </Link>
-          </li>
-        ))}
-      </ul>
-    </BracketPanel>
+    <ul className="space-y-1">
+      {items.map((item, i) => (
+        <li key={item.href}>
+          <Link
+            href={item.href}
+            onPointerEnter={() => setIndex(i)}
+            className={`block rounded-sm border px-4 py-2.5 text-sm tracking-[0.15em] transition-colors ${
+              i === index
+                ? "border-accent/50 bg-tint text-ink"
+                : "border-transparent text-ink-dim hover:text-ink-soft"
+            }`}
+          >
+            {item.label.toUpperCase()}
+          </Link>
+        </li>
+      ))}
+    </ul>
   );
 }

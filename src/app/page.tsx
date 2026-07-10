@@ -75,7 +75,7 @@ export default function LandingPage() {
         </BracketPanel>
 
         <div className="flex flex-col items-center gap-4">
-          <p className="max-w-[16rem] text-center text-sm italic tracking-wide text-ink-soft sm:text-base">
+          <p className="whitespace-nowrap text-center text-[10px] italic tracking-wide text-ink-soft sm:text-sm md:text-base">
             CLICK ANYWHERE OR PRESS SPACE BAR TO EXPLORE
           </p>
           <div className="flex h-14 w-14 items-center justify-center rounded-full border border-line">
