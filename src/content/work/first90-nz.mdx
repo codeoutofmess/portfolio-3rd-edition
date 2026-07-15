@@ -1,0 +1,41 @@
+---
+title: "A sequenced settlement checklist for new migrants to NZ"
+summary: "A guided PWA that turns the first 90 days after landing in New Zealand — IRD numbers, bank accounts, GP enrollment, rental bonds — into a plain-language checklist, personalized by visa type and traceable to official sources."
+client: "Personal project"
+kind: "personal"
+category: "dev"
+role: ["Product design", "Front-end development", "Content & research"]
+year: "2026"
+duration: "2 days"
+tags: ["Next.js", "Supabase", "PWA", "TypeScript"]
+coverImage: "/images/work/first90-nz/cover.png"
+coverAlt: "First90 NZ checklist app showing progress on a work visa checklist"
+links:
+  live: "https://app-kohl-zeta-15.vercel.app"
+featured: true
+order: 2
+---
+
+First90 NZ is built from having actually gone through this: landing in New Zealand on a visa and discovering that nobody sequences the practical admin that follows — IRD number, bank account, tenancy bond, GP enrollment, driver licence conversion — in plain language, gated by what your specific visa actually requires. There's already a good tool for "what does my visa allow" ([NZIGPT](https://nzigpt.com/) answers that with source-cited AI over official immigration documentation). The gap is *after* the visa is granted, and that's the lane this occupies instead.
+
+## Not a visa-eligibility tool
+
+The scope boundary mattered more than the feature list here. This is deliberately not an immigration adviser and doesn't touch application or eligibility questions — that's licensed-adviser territory, and a real legal-liability line in NZ for unlicensed immigration advice. Every checklist item traces to an actual government source link rather than asserting a rule from nowhere, and the app stores as little personal data as it can get away with, given who it's actually for: recent migrants, a genuinely vulnerable population where minimizing data retention isn't a nice-to-have.
+
+## A checklist gated by visa type
+
+Pick student, work, partner, or resident visa and the checklist filters to what actually applies — a resident doesn't need the same healthcare-eligibility item as someone on a temporary work visa, and a student's work-rights item doesn't apply to a partner visa holder. Each of the twelve items carries a plain-language summary, a "why this matters" explanation, an official source link, and a rough cost/time estimate, so someone can tell at a glance whether something is a fifteen-minute online form or a same-day bank visit.
+
+![The work-visa checklist, with progress tracked at the top and each item showing cost, time estimate, and source link](/images/work/first90-nz/checklist-view.png)
+
+## Tone as the actual design problem
+
+The visual and UX work here is really one problem: making government-adjacent admin feel warm instead of intimidating. Government sites default to dense, legalistic language because they're written for compliance, not for someone jet-lagged and three days into a new country trying to figure out if they need a GP before they need a bank account. Space Grotesk headings, a warm off-white background instead of clinical white, and a teal accent color do some of that work; the bigger lift was rewriting every "why this matters" line in first-person-adjacent plain language, and structuring each item so the short answer is visible without opening anything, and the longer explanation is one tap away for anyone who wants it.
+
+## Making it installable, not another app-store app
+
+The audience needs this in a short, intense window and won't want an app-store install for something they'll stop needing in ninety days — so it ships as an installable PWA instead, with a manifest and service worker precaching the app shell. Progress is saved to an anonymous profile via Supabase, not tied to identity, and that's stated explicitly on the app's own about page rather than buried in a privacy policy nobody reads.
+
+## What's actually built, and what isn't
+
+The checklist, visa-type gating, progress tracking, and PWA install flow all work end to end with real content sourced from IRD, INZ, Tenancy Services, and Ministry of Health pages — not placeholder text. It's live and installable at [app-kohl-zeta-15.vercel.app](https://app-kohl-zeta-15.vercel.app) — a free Vercel domain for now, ahead of a proper first90.nz. What's not done yet is the part that would make this more than a personal build: a pilot conversation with an actual settlement-support organization or university international office, which is the honest next step rather than something to claim has already happened.

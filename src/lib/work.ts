@@ -42,6 +42,10 @@ export function getFeaturedProjects(): Project[] {
   return getAllProjects().filter((p) => p.featured);
 }
 
+export function getProjectsByCategory(category: Project["category"]): Project[] {
+  return getAllProjects().filter((p) => p.category === category);
+}
+
 export function getProjectBySlug(slug: string): Project | undefined {
   return getAllProjects({ includeDrafts: true }).find((p) => p.slug === slug);
 }

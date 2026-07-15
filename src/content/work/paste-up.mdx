@@ -1,0 +1,41 @@
+---
+title: "A zine-styled listings site for Wellington's free gig scene"
+summary: "Paste Up covers the tier of Wellington's live music scene the ticketing platforms have no reason to list — free shows, all-ages nights, and DIY gigs — with self-submitted listings, manual approval, and a flyer-wall look instead of another ticketing clone."
+client: "Personal project"
+kind: "personal"
+category: "dev"
+role: ["Brand & UI design", "Front-end development", "Full-stack"]
+year: "2026"
+duration: "1 day"
+tags: ["Next.js", "Supabase", "Zine Design", "TypeScript"]
+coverImage: "/images/work/paste-up/cover.png"
+coverAlt: "Paste Up homepage listing free and DIY gigs around Wellington"
+links:
+  live: "https://app-flame-eight-29.vercel.app"
+featured: true
+order: 3
+---
+
+Wellington's live music scene already has two platforms that cover ticketed shows comprehensively — Eventfinda and UnderTheRadar. Building a third version of that would just be a worse clone of something that already works. The actual gap sits one tier down: free shows, all-ages nights, and DIY gigs at small venues, the kind of thing that has no ticket to sell and therefore no commercial reason to appear on a ticketing platform. Eyegum's long-running free Wednesday lineups and Pyramid Club's DIY nights end up scattered across Instagram stories instead — a discovery problem, not a supply problem. Paste Up is scoped specifically to that slice.
+
+## Submissions, not scraping
+
+The obvious shortcut would be scraping Instagram and Facebook for gig posts. I ruled that out deliberately: scraping is fragile against layout changes, carries real terms-of-service risk on both platforms, and puts the accuracy burden on a script instead of on the person who actually knows whether the event is real. Paste Up runs on a submission model instead — venues, promoters, and artists submit their own listings through a form, gated behind a lightweight shared-access-code check rather than full account creation, since the initial base of contributors is small.
+
+## A moderation step that's honest about its own state
+
+Every submission lands in an admin queue and only appears on the public listings once approved — a deliberate chokepoint to keep spam out while there are only a handful of contributors. The homepage has an explicit empty state ("Nothing on the books yet," with a direct link to submit) built for the honest case of a new deployment with no real listings yet, rather than papering over it with content dressed up to look real.
+
+![The submission form's access gate — a shared contributor code, not a full account signup](/images/work/paste-up/submit-flow.png)
+
+## Designing away from the ticketing-site look
+
+The visual direction is the clearest design decision in the project: closer to a flyer wall or zine than a ticketing platform, reinforcing that this is the DIY tier, not a cheap Eventfinda clone. Anton for display type, Space Mono for everything functional, hard 2px borders with an offset drop shadow on every card, and a flat ink/paper/pink palette instead of the soft gradients ticketing sites default to. It's a direct application of the visual and motion instincts from the [Boom Bap Bombay](/case/boombapbombay) freelance work — for a Mumbai hip-hop label — carried into an unrelated Wellington context. The skill transfers even when the relationships don't. Venue and night pages follow the same system, so a page can be handed straight to a promoter without looking like a template with their name dropped in.
+
+## What's deliberately not in scope
+
+No ticketing or payments — irrelevant for free shows, and anything paid just links out. No attempt to cover every free/DIY night in Wellington from day one; the plan is to start with a handful of venues and expand only as fast as real submissions justify. And no pretending this competes with Eventfinda or UnderTheRadar — if anything, the eventual pitch to them is as a complementary niche tool, not a rival.
+
+## Where it actually stands
+
+The listings feed, submission form, moderation queue, and venue pages all work end to end — this is a real, running app, not a mockup, live at [app-flame-eight-29.vercel.app](https://app-flame-eight-29.vercel.app). What hasn't happened yet is the cold outreach: no existing relationships with Wellington venues or promoters to lean on going in, so the actual test — whether Eyegum, Pyramid Club, or a similar night will submit real listings — starts from zero, on the strength of the tool itself.

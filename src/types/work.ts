@@ -1,4 +1,5 @@
 export type ProjectKind = "client" | "university" | "personal";
+export type ProjectCategory = "dev" | "design";
 
 export interface ProjectLinks {
   live?: string;
@@ -11,6 +12,7 @@ export interface ProjectFrontmatter {
   summary: string;
   client: string;
   kind: ProjectKind;
+  category: ProjectCategory;
   role: string[];
   year: string;
   duration: string;
