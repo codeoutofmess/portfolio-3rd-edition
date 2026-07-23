@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { ShellBox } from "@/components/hud/shell-box";
 import { HudCardMenu } from "@/components/hud/hud-card-menu";
 import { KeyHintGrid } from "@/components/hud/key-hint";
+import { CenteredPage } from "@/components/hud/centered-page";
 import { getProjectsByCategory } from "@/lib/work";
 import type { ProjectCategory } from "@/types/work";
 
@@ -33,7 +34,7 @@ export default async function WorkCategoryListPage({
   const projects = getProjectsByCategory(category as ProjectCategory);
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center gap-6 p-6">
+    <CenteredPage hint={<KeyHintGrid top={["Esc", "↑", "Enter"]} bottom={["←", "↓", "→"]} />}>
       <ShellBox backHref="/menu/work" size="compact" backLabel="WORK">
         <HudCardMenu
           items={projects.map((p) => ({
@@ -47,7 +48,6 @@ export default async function WorkCategoryListPage({
           backHref="/menu/work"
         />
       </ShellBox>
-      <KeyHintGrid top={["Esc", "↑", "Enter"]} bottom={["←", "↓", "→"]} />
-    </main>
+    </CenteredPage>
   );
 }

@@ -78,7 +78,9 @@ export function HudCardMenu({ items, backHref }: HudCardMenuProps) {
 
   return (
     <div className="flex h-full flex-col items-center justify-center gap-6">
-      <div className="flex items-center gap-2">
+      {/* Desktop/keyboard: fixed 3-card window with chevrons + synced
+       *  description panel below. Untouched from the original design. */}
+      <div className="hidden items-center gap-2 sm:flex">
         <button
           type="button"
           onClick={() => selectIndex(index - 1)}
@@ -149,7 +151,7 @@ export function HudCardMenu({ items, backHref }: HudCardMenuProps) {
         </button>
       </div>
 
-      <div className="w-full max-w-md text-center">
+      <div className="hidden w-full max-w-md text-center sm:block">
         <p className="text-xs font-semibold tracking-widest text-ink">
           {active.label.toUpperCase()}
         </p>
@@ -169,6 +171,60 @@ export function HudCardMenu({ items, backHref }: HudCardMenuProps) {
           ))}
         </div>
       </div>
+
+      {/* Mobile: every card in one native-scroll, snap-to-card strip that
+       *  fits inside the box — swipe to browse, tap to open. No windowing
+       *  math, no edge button needed to reach the last project. */}
+      <MobileCardStrip items={items} />
+    </div>
+  );
+}
+
+function MobileCardStrip({ items }: { items: HudCardItem[] }) {
+  const [atEnd, setAtEnd] = useState(items.length <= 2);
+
+  function onScroll(e: React.UIEvent<HTMLDivElement>) {
+    const el = e.currentTarget;
+    setAtEnd(el.scrollLeft + el.clientWidth >= el.scrollWidth - 4);
+  }
+
+  return (
+    <div className="flex w-full flex-col gap-3 sm:hidden">
+      <div
+        onScroll={onScroll}
+        className="flex snap-x snap-mandatory gap-3 overflow-x-auto scroll-px-1 pb-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+      >
+        {items.map((item) => (
+          <Link
+            key={item.href}
+            href={item.href}
+            title={item.label}
+            className="flex w-28 shrink-0 snap-start flex-col items-center gap-2"
+          >
+            <BracketPanel className="flex h-28 w-28 flex-col items-center justify-center gap-2 border border-line p-3 text-center">
+              {item.logo ? (
+                <div className="relative h-12 w-12">
+                  <Image src={item.logo} alt={item.label} fill className="object-contain" />
+                </div>
+              ) : (
+                <span className="px-1 text-sm font-bold leading-snug tracking-wide text-ink-dim">
+                  {item.fallback}
+                </span>
+              )}
+            </BracketPanel>
+            <span className="text-center text-[10px] font-semibold leading-snug tracking-widest text-ink">
+              {item.fallback.toUpperCase()}
+            </span>
+          </Link>
+        ))}
+      </div>
+      <p
+        className={`text-center text-[10px] tracking-widest text-ink-dim transition-opacity ${
+          atEnd ? "opacity-0" : "opacity-100"
+        }`}
+      >
+        SWIPE FOR MORE →
+      </p>
     </div>
   );
 }

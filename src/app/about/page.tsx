@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
 import { ShellBox } from "@/components/hud/shell-box";
+import { CenteredPage } from "@/components/hud/centered-page";
 import { site } from "@/lib/site";
 
 export const metadata: Metadata = { title: "About" };
 
 export default function AboutPage() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center p-6">
+    <CenteredPage>
       <ShellBox backHref="/menu" size="compact">
         <p className="text-xs tracking-widest text-accent">{"// ABOUT ME"}</p>
         <div className="mt-6 space-y-5 text-sm leading-relaxed text-ink-soft">
@@ -51,6 +52,6 @@ export default function AboutPage() {
           </a>
         </div>
       </ShellBox>
-    </main>
+    </CenteredPage>
   );
 }

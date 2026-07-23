@@ -35,11 +35,13 @@ export function ShellBox({
 
   return (
     <div
-      className={size === "compact" ? "w-[min(700px,92vw)]" : "w-[min(768px,92vw)]"}
+      className={`flex min-h-0 flex-col ${
+        size === "compact" ? "w-[min(700px,92vw)]" : "w-[min(768px,92vw)]"
+      }`}
     >
       <Link
         href={backHref}
-        className="mb-3 flex w-fit items-center gap-2 text-xs tracking-widest text-ink-dim hover:text-accent"
+        className="mb-3 flex w-fit shrink-0 items-center gap-2 text-xs tracking-widest text-ink-dim hover:text-accent"
       >
         <span className="rounded border border-line px-2 py-1">Esc</span>
         {backLabel}

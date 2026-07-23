@@ -1,13 +1,14 @@
 import type { Metadata } from "next";
 import { ShellBox } from "@/components/hud/shell-box";
 import { BracketPanel } from "@/components/hud/bracket-panel";
+import { CenteredPage } from "@/components/hud/centered-page";
 import { site } from "@/lib/site";
 
 export const metadata: Metadata = { title: "Contact" };
 
 export default function ContactPage() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center p-6">
+    <CenteredPage>
       <ShellBox backHref="/menu" size="compact">
         <p className="text-xs tracking-widest text-accent">{"// LET'S TALK"}</p>
         <p className="mt-6 max-w-md text-sm leading-relaxed text-ink-soft">
@@ -44,6 +45,6 @@ export default function ContactPage() {
           </a>
         </div>
       </ShellBox>
-    </main>
+    </CenteredPage>
   );
 }

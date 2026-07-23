@@ -27,7 +27,7 @@ export default function LandingPage() {
   return (
     <main
       onClick={() => router.push("/menu")}
-      className="relative flex min-h-screen cursor-pointer flex-col justify-between p-6 sm:p-10"
+      className="relative flex h-dvh cursor-pointer flex-col justify-between overflow-hidden p-5 sm:p-10"
     >
       <div className="fade-up flex items-start justify-between" style={{ animationDelay: "0ms" }}>
         <div>
@@ -67,21 +67,30 @@ export default function LandingPage() {
         </h1>
       </div>
 
-      <div className="fade-up flex items-end justify-between" style={{ animationDelay: "300ms" }}>
-        <BracketPanel tinted className="border border-line px-5 py-4">
+      <div
+        className="fade-up flex flex-col items-center gap-4 sm:flex-row sm:items-end sm:justify-between sm:gap-3"
+        style={{ animationDelay: "300ms" }}
+      >
+        <BracketPanel
+          tinted
+          className="border border-line px-4 py-3 text-center sm:px-5 sm:py-4 sm:text-left"
+        >
           <p className="text-xs tracking-wide text-accent">DESIGNER // DEVELOPER</p>
           <p className="mt-1 text-xs tracking-wide text-ink-soft">PORTFOLIO</p>
           <p className="mt-1 text-xs tracking-wide text-ink-soft">{site.edition}</p>
         </BracketPanel>
 
-        <div className="flex flex-col items-center gap-4">
-          <p className="whitespace-nowrap text-center text-[10px] italic tracking-wide text-ink-soft sm:text-sm md:text-base">
-            CLICK ANYWHERE OR PRESS SPACE BAR TO EXPLORE
+        <div className="flex flex-shrink-0 flex-col items-center gap-3 sm:gap-4">
+          <p className="text-center text-[11px] italic tracking-wide text-ink-soft sm:whitespace-nowrap sm:text-sm md:text-base">
+            <span className="sm:hidden">TAP TO EXPLORE</span>
+            <span className="hidden sm:inline">
+              CLICK ANYWHERE OR PRESS SPACE BAR TO EXPLORE
+            </span>
           </p>
-          <div className="flex h-14 w-14 items-center justify-center rounded-full border border-line">
+          <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-line sm:h-14 sm:w-14">
             <svg
               viewBox="0 0 24 24"
-              className="h-6 w-6 text-ink-soft"
+              className="h-5 w-5 text-ink-soft sm:h-6 sm:w-6"
               fill="none"
               stroke="currentColor"
               strokeWidth="1.2"
