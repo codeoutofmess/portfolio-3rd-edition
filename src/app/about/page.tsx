@@ -50,6 +50,14 @@ export default function AboutPage() {
           >
             BEHANCE
           </a>
+          <a
+            href={site.socials.github}
+            target="_blank"
+            rel="noreferrer"
+            className="text-ink-dim hover:text-ink"
+          >
+            GITHUB
+          </a>
         </div>
       </ShellBox>
     </CenteredPage>

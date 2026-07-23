@@ -7,7 +7,7 @@ export const site = {
   socials: {
     linkedin: "https://www.linkedin.com/in/pradyumna-vishwanath",
     behance: "https://www.behance.net/pradyumvishwan",
-    github: "",
+    github: "https://github.com/codeoutofmess",
   },
   resumeUrl: "/resume.pdf",
   availableToWork: true,
