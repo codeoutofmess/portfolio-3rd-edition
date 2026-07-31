@@ -38,8 +38,8 @@ export default function ResumePage() {
             <Image
               src={PREVIEW_URL}
               alt="Pradyumna Vishwanath's resume"
-              width={1855}
-              height={2400}
+              width={1240}
+              height={1754}
               className="w-full max-w-md rounded-md border border-line"
               priority
             />
