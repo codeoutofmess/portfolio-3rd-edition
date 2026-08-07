@@ -1,0 +1,66 @@
+---
+title: "An Angular port of an existing React app, built to close a real skill gap"
+summary: "A deliberate Angular rebuild of three screens from Paste Up — my Next.js/Supabase gig-listings site — reusing its real data through a small REST API added for this purpose. Built to get real, hands-on Angular experience (standalone components, Signals, Reactive Forms) for a stack that turns up in a smaller but real cluster of job postings I couldn't yet honestly apply for."
+client: "Personal project"
+kind: "personal"
+category: "dev"
+role: ["Front-end development", "Back-end development"]
+year: "2026"
+duration: "One sitting, ~2 hours"
+tags: ["Angular", "TypeScript", "RxJS", "Reactive Forms", "Next.js", "REST API"]
+links:
+  repo: "https://github.com/codeoutofmess/consoleview"
+featured: true
+order: 6
+---
+
+ConsoleView exists for the same reason DeskLog does: a gap, not a feature idea. Angular
+keeps showing up in a smaller but real slice of the NZ roles I was scanning, and I hadn't
+built anything real in it. Rather than start a throwaway to-do app, I picked three screens
+— event list, event detail, filter form — from Paste Up, a Next.js/Supabase gig-listings
+site I'd already built, and rebuilt just the frontend in Angular against the same real
+data. The README says so explicitly: this is a deliberate port to demonstrate Angular
+fluency, not confusion about which framework I reach for day to day.
+
+## The backend I thought I could reuse didn't actually exist
+
+The plan was "point Angular at Paste Up's existing API." Paste Up didn't have one. It's
+Next.js App Router calling Supabase directly from Server Components and Server Actions —
+no Express layer, no REST routes, nothing an external client could call. Before ConsoleView
+could fetch a single event, Paste Up needed a real `/api/events` added to it: `GET
+/api/events` and `GET /api/events/:id`, CORS scoped to the Angular dev origin through a
+`CONSOLEVIEW_ORIGIN` env var, and a mapping layer, since Paste Up's `Gig` type has no
+`description` field and a nullable `title`. Rather than push that shaping into Angular, the
+API composes a human-readable description server-side from artists/venue/cost/time, and
+falls back the title to the artist list when a gig has none — decided up front, not patched
+in later, so ConsoleView's `Event` model could stay exactly as clean as it was scaffolded.
+
+## Angular moved since I last looked at it structurally
+
+Angular 22 — current when this was built — renames `@Injectable` to `@Service`, and it's
+not just a rename: `@Service()` auto-provides by default, so passing `providedIn: 'root'`
+the old way is now a compile error, not a no-op. Caught immediately by running `ng build`
+rather than by reading changelogs first, which was the point of building something real
+instead of following a tutorial: the framework's current shape shows up as a build failure,
+not a footnote.
+
+## Signals and Reactive Forms, wired together rather than side by side
+
+The filter form isn't decorative. `NonNullableFormBuilder`'s `valueChanges` becomes a
+signal via `toSignal()`, combined with the fetched-events signal through a `computed()`
+that does the actual filtering — a substring search across title, venue, and description,
+AND'd with an exact venue match, with the venue dropdown itself derived from whatever
+events actually came back. Every downstream piece — the list, the dropdown options, the
+filtered results, the detail screen's route-driven refetch via `switchMap` over
+`ActivatedRoute.paramMap` — is signal-derived. No manual subscription lives anywhere in
+either page component.
+
+## What's actually built, and what isn't
+
+Routing, a typed `Event` model, an `Events` service, signal-driven list and detail screens,
+and a reactive search/venue filter are all wired to Paste Up's real API and verified
+end-to-end in a browser — not mocked. What's not built: ConsoleView isn't deployed
+anywhere yet, so it currently only runs locally against Paste Up's dev server; filtering
+happens client-side over the fetched list rather than as a server-side query; and the API
+needs no auth at all, since it only ever exposes gigs that are already public on Paste Up's
+own pages.

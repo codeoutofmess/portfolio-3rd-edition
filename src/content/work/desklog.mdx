@@ -1,0 +1,61 @@
+---
+title: "A Java/Spring Boot ticketing app, built to close a real skill gap"
+summary: "A small helpdesk app — JWT auth, filterable tickets, a threaded comment view, a live status workflow — built specifically to get real, hands-on Spring Boot experience for a stack that kept showing up in job postings I couldn't yet honestly apply for."
+client: "Personal project"
+kind: "personal"
+category: "dev"
+role: ["Back-end development", "Front-end development"]
+year: "2026"
+duration: "One sitting, ~1.5 hours"
+tags: ["Spring Boot", "Spring Security", "PostgreSQL", "React", "TypeScript", "Docker"]
+links:
+  live: "https://desklog-web.vercel.app"
+  repo: "https://github.com/codeoutofmess/DeskLog"
+featured: true
+order: 5
+---
+
+DeskLog exists because of a gap, not a feature idea: Java/Spring Boot is the second-most
+common backend stack showing up in the NZ roles I was scanning, and I hadn't touched it
+commercially. Rather than claim it on an application form on faith, I built a small,
+real ticketing app with it — JWT auth, ticket CRUD with filtering, a comment thread, and a
+live status-change workflow — end to end, deployed, in one sitting.
+
+## Two real bugs, caught by actually running it
+
+The value of building something real instead of following a tutorial showed up almost
+immediately. A duplicate-email registration and a validation error were both coming back as
+bare `403 Forbidden` instead of their real status codes — not because the logic was wrong,
+but because Spring Security's `anyRequest().authenticated()` was silently blocking the
+internal servlet forward to `/error` that those exceptions trigger. And missing or invalid
+JWTs were returning 403 instead of 401, because Spring Security's default behaviour doesn't
+distinguish "not authenticated" from "authenticated but forbidden" without an explicit
+`AuthenticationEntryPoint`. Neither shows up by reading the code — only by registering a user
+twice and watching the response.
+
+## Building against a moving target
+
+The plan called for Spring Boot 3. By the time I actually scaffolded it, `start.spring.io`
+had aged out of generating 3.x projects at all — the ecosystem had moved to Boot 4 in the
+interim. Rather than force an outdated version, I checked the generator's real compatibility
+range, confirmed the move to 4.1.0, and adjusted — which meant verifying, not assuming, that
+things like `springdoc-openapi` and the exact Spring Security 7 API still behaved the way the
+older tutorials I'd have otherwise followed assumed.
+
+## Seed data that has to survive a restart
+
+Local dev runs on H2, wiped clean every restart, so seeding it on every boot is free. The
+deployed version runs on a real, persistent Render Postgres instance — reseeding blindly on
+every restart there would just keep duplicating demo tickets forever. The seeder checks for
+existing data first and no-ops if the database isn't empty, a small but deliberate difference
+from how the same pattern worked in an earlier ephemeral-SQLite project.
+
+## What's actually built, and what isn't
+
+Auth, ticket CRUD with filtering, comments, and status changes all work end to end against a
+live Postgres database — not a demo mode. It's deployed at
+[desklog-web.vercel.app](https://desklog-web.vercel.app), with the API's Swagger UI left open
+at `/swagger-ui.html` since there's no real user data at risk. What's not built: status
+changes have no ownership check (any signed-in user can change any ticket), and there's no
+self-service way to become an admin — deliberate scope decisions for a project sized to prove
+the stack, not to be a complete product.

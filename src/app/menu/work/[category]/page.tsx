@@ -17,6 +17,9 @@ const LOGO_FALLBACK: Record<string, string> = {
   "consumer-nz-ia": "CONSUMER NZ",
   "candidacy-information": "CITY COUNCIL",
   "beatstars-design-system": "BEATSTARS",
+  "shiftboard": "SHIFTBOARD",
+  "desklog": "DESKLOG",
+  "consoleview": "CONSOLEVIEW",
 };
 
 export function generateStaticParams() {

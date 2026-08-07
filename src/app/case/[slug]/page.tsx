@@ -62,7 +62,7 @@ export default async function CasePage({
           </div>
         </dl>
 
-        {(project.links?.live || project.links?.prototype) && (
+        {(project.links?.live || project.links?.prototype || project.links?.repo) && (
           <div className="mt-6 flex flex-wrap gap-3">
             {project.links.live && (
               <a
@@ -82,6 +82,16 @@ export default async function CasePage({
                 className="inline-block rounded border border-line px-4 py-2.5 text-sm tracking-widest text-accent hover:bg-white/5"
               >
                 VIEW PROTOTYPE ↗
+              </a>
+            )}
+            {project.links.repo && (
+              <a
+                href={project.links.repo}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-block rounded border border-line px-4 py-2.5 text-sm tracking-widest text-accent hover:bg-white/5"
+              >
+                VIEW REPO ↗
               </a>
             )}
           </div>
