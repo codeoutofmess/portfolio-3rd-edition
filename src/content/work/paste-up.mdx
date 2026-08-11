@@ -28,6 +28,10 @@ Every submission lands in an admin queue and only appears on the public listings
 
 ![The submission form's access gate — a shared contributor code, not a full account signup](/images/work/paste-up/submit-flow.png)
 
+Everything runs server-side against Supabase directly — Server Components for reads, Server Actions for the submission and moderation writes — with one exception: a small `/api/events` REST layer, added later so [ConsoleView](/case/consoleview), an Angular port of three of these screens, would have something external to call instead of reaching into Supabase itself.
+
+![System shape: Next.js Server Components/Actions talking to Supabase directly, plus a REST layer added for ConsoleView](/images/work/paste-up/architecture.svg)
+
 ## Designing away from the ticketing-site look
 
 The visual direction is the clearest design decision in the project: closer to a flyer wall or zine than a ticketing platform, reinforcing that this is the DIY tier, not a cheap Eventfinda clone. Anton for display type, Space Mono for everything functional, hard 2px borders with an offset drop shadow on every card, and a flat ink/paper/pink palette instead of the soft gradients ticketing sites default to. It's a direct application of the visual and motion instincts from the [Boom Bap Bombay](/case/boombapbombay) freelance work — for a Mumbai hip-hop label — carried into an unrelated Wellington context. The skill transfers even when the relationships don't. Venue and night pages follow the same system, so a page can be handed straight to a promoter without looking like a template with their name dropped in.

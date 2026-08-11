@@ -28,6 +28,8 @@ The archive migration was the real work. Results had been recorded in at least f
 
 The rule that mattered most: anything the script couldn't confidently parse got left in its original form rather than guessed at. Getting a chess result wrong — swapping a win for a loss, misreading a crosstable — isn't a cosmetic bug, it's a real record of someone's game being misreported. Ninety-five tournaments and 154 crosstables were converted this way, with zero results retyped by hand and zero guessed at.
 
+![The searchable tournament archive — 95 tournaments, 2011–2026, filterable by event, winner, and year](/images/work/wellington-chess-club/archive.png)
+
 ## One template instead of ninety-five
 
 The original site repeated its header and navigation on every single page, which meant any small change meant editing dozens of files. The rebuild replaces that with one shared template and one stylesheet, plus a searchable archive index that sits alongside the existing year-by-year browsing rather than replacing it. External tools the club already relies on — Vega for pairings, Lichess for game broadcasts, NZCF for federation records — were left untouched and simply linked to. They already do their job; rebuilding them wasn't the point.

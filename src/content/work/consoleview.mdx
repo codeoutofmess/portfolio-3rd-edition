@@ -35,6 +35,8 @@ API composes a human-readable description server-side from artists/venue/cost/ti
 falls back the title to the artist list when a gig has none — decided up front, not patched
 in later, so ConsoleView's `Event` model could stay exactly as clean as it was scaffolded.
 
+![ConsoleView (Angular) calling the REST layer added to Paste Up (Next.js/Supabase) rather than reaching into Supabase directly](/images/work/paste-up/architecture.svg)
+
 ## Angular moved since I last looked at it structurally
 
 Angular 22 — current when this was built — renames `@Injectable` to `@Service`, and it's

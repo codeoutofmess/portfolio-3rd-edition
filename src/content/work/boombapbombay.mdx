@@ -28,13 +28,15 @@ That changes how you design. A hover state drawn in Figma has to actually get bu
 
 The landing page centerpiece is a GLTF revolver model that tracks the cursor — aims wherever you move your mouse. Rendered in Three.js with a Meshopt-compressed model so it doesn't stall on load. It's a blunt object for a genre whose whole vocabulary is blunt, and it sets the tone in three seconds better than any line of copy could.
 
+![The landing page: bilingual wordmark, the cursor-tracked revolver, and the latest-drops panel](/images/work/boombapbombay/hero.jpg)
+
 ## Making scroll feel expensive
 
 Under the hood it's GSAP driving ScrollTrigger and Flip, layered on Lenis for the weighted, slightly-delayed glide desktop users now expect from a site that's trying to feel premium. Getting that to also hold up on mobile took more work than the desktop version — pinned scroll sections jitter on touch devices because native scrolling runs on its own thread, out of sync with whatever's driving the animation in JS. I ended up giving mobile a normalized scroll path and, in a few places, an entirely separate build, rather than forcing one interaction model to behave on both.
 
 ## A beat store that's actually a store
 
-Past the visuals, this had to function as commerce: a cart, checkout, and paid digital downloads. I built the backend in Express with Postgres and Supabase, wired to Razorpay for payment. The parts that mattered most weren't visual at all — verifying Razorpay's webhook signatures with a constant-time comparison so the check can't be timed and guessed, re-deriving the price server-side instead of trusting whatever the client sends, and handing out time-limited signed download links instead of a public file URL anyone could pass around. None of that shows up in a screenshot, but it's the difference between a store and a store that's actually safe to take money through.
+Past the visuals, this had to function as commerce: a cart, checkout, and paid digital downloads. I built the backend in Express with Postgres and Supabase, wired to Razorpay for payment. The parts that mattered most weren't visual at all — verifying Razorpay's webhook signatures with a constant-time comparison so the check can't be timed and guessed, re-deriving the price server-side instead of trusting whatever the client sends, and handing out time-limited signed download links instead of a public file URL anyone could pass around. None of that shows up in a screenshot, but it's the difference between a store and a store that's actually safe to take money through. The signature-verification logic and the cart quantity caps both have real unit tests behind them (`payments.test.js`, `quantity.test.js`) — the parts of a checkout flow where a silent regression is expensive, not the parts where it's merely annoying.
 
 ## What four months on one client taught me
 

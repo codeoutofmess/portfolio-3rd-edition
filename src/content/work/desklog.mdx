@@ -8,6 +8,8 @@ role: ["Back-end development", "Front-end development"]
 year: "2026"
 duration: "One sitting, ~1.5 hours"
 tags: ["Spring Boot", "Spring Security", "PostgreSQL", "React", "TypeScript", "Docker"]
+coverImage: "/images/work/desklog/ticket-list.png"
+coverAlt: "DeskLog's ticket list with status and priority badges"
 links:
   live: "https://desklog-web.vercel.app"
   repo: "https://github.com/codeoutofmess/DeskLog"
@@ -33,6 +35,13 @@ distinguish "not authenticated" from "authenticated but forbidden" without an ex
 `AuthenticationEntryPoint`. Neither shows up by reading the code — only by registering a user
 twice and watching the response.
 
+![DeskLog's ticket list — filterable by status and priority, seeded with real demo tickets](/images/work/desklog/ticket-list.png)
+
+A ticket's detail view is where the actual workflow lives: a live status control and a comment
+thread underneath it, so a fix doesn't just get marked done silently — it gets a paper trail.
+
+![A ticket's detail view: status control and comment thread, mid-triage on a seeded "urgent" ticket](/images/work/desklog/ticket-detail.png)
+
 ## Building against a moving target
 
 The plan called for Spring Boot 3. By the time I actually scaffolded it, `start.spring.io`
@@ -49,6 +58,8 @@ deployed version runs on a real, persistent Render Postgres instance — reseedi
 every restart there would just keep duplicating demo tickets forever. The seeder checks for
 existing data first and no-ops if the database isn't empty, a small but deliberate difference
 from how the same pattern worked in an earlier ephemeral-SQLite project.
+
+![Deployment topology: React SPA on Vercel talking to a Dockerized Spring Boot API on Render, backed by a persistent Postgres instance](/images/work/desklog/architecture.svg)
 
 ## What's actually built, and what isn't
 

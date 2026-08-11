@@ -8,6 +8,8 @@ role: ["Back-end development", "Front-end development"]
 year: "2026"
 duration: "Six milestone sessions, scaffold through live deploy"
 tags: ["ASP.NET Core", "Entity Framework Core", "C#", "React", "TypeScript", "Docker"]
+coverImage: "/images/work/shiftboard/week-view.png"
+coverAlt: "ShiftBoard's week view showing the seeded roster"
 links:
   live: "https://shiftboard-web-theta.vercel.app"
   repo: "https://github.com/codeoutofmess/ShiftBoard"
@@ -44,6 +46,14 @@ can read the roster, but only Admins can create, edit, or delete shifts, locatio
 employees' records — modelled as "managers build the schedule, staff view it," not a hard
 requirement of the brief, just the design that made sense for the domain.
 
+![ShiftBoard's week view, showing the seeded roster across Wellington CBD and Lower Hutt](/images/work/shiftboard/week-view.png)
+
+The overlap check and the "who can do what" split both surface in the same form — adding a shift
+picks from the existing employee/location set (or creates a location inline) and validates start
+and end times before it ever reaches the API.
+
+![The new-shift form — employee, location, and the start/end range the overlap check runs against](/images/work/shiftboard/new-shift-form.png)
+
 ## Deploying a stack that doesn't fit one host
 
 The frontend and backend don't share a home: Vercel runs Node/static/serverless workloads, not
@@ -52,6 +62,8 @@ deployed to Render as a Blueprint (`render.yaml`), which re-syncs automatically 
 `main`; the React frontend deploys separately to Vercel, pointed at the live API via an
 environment variable. The JWT signing key never touches git either way — `dotnet user-secrets`
 locally, Render's `generateValue` for the deployed key.
+
+![Deployment topology: React SPA on Vercel talking to a Dockerized ASP.NET Core API on Render, backed by SQLite](/images/work/shiftboard/architecture.svg)
 
 ## What's actually built, and what isn't
 

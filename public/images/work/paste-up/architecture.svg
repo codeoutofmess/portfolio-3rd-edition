@@ -1,0 +1,44 @@
+<svg viewBox="0 0 780 280" xmlns="http://www.w3.org/2000/svg" font-family="ui-monospace, 'JetBrains Mono', monospace">
+  <rect width="780" height="280" fill="#0a0a0b"/>
+
+  <!-- Browser -->
+  <rect x="24" y="60" width="140" height="60" rx="6" fill="#111113" stroke="rgba(255,255,255,0.16)"/>
+  <text x="94" y="86" fill="#f2f2f0" font-size="13" text-anchor="middle">Browser</text>
+  <text x="94" y="104" fill="#8a8a8e" font-size="11" text-anchor="middle">submitter / reader</text>
+
+  <!-- arrow -->
+  <line x1="164" y1="90" x2="222" y2="90" stroke="#6fe38a" stroke-width="1.5"/>
+  <polygon points="222,90 214,86 214,94" fill="#6fe38a"/>
+
+  <!-- Next.js -->
+  <rect x="226" y="40" width="230" height="100" rx="6" fill="#111113" stroke="rgba(255,255,255,0.16)"/>
+  <text x="341" y="68" fill="#f2f2f0" font-size="13" text-anchor="middle">Next.js App Router</text>
+  <text x="341" y="86" fill="#8a8a8e" font-size="11" text-anchor="middle">Server Components +</text>
+  <text x="341" y="102" fill="#8a8a8e" font-size="11" text-anchor="middle">Server Actions</text>
+  <text x="341" y="122" fill="#6fe38a" font-size="11" text-anchor="middle">Vercel</text>
+
+  <!-- arrow to supabase -->
+  <line x1="456" y1="90" x2="514" y2="90" stroke="#6fe38a" stroke-width="1.5"/>
+  <polygon points="514,90 506,86 506,94" fill="#6fe38a"/>
+
+  <!-- Supabase -->
+  <rect x="518" y="60" width="190" height="60" rx="6" fill="#0d1f14" stroke="rgba(255,255,255,0.16)"/>
+  <text x="613" y="86" fill="#f2f2f0" font-size="13" text-anchor="middle">Supabase (Postgres)</text>
+  <text x="613" y="104" fill="#8a8a8e" font-size="11" text-anchor="middle">gigs, venues, submissions</text>
+
+  <!-- branch down to REST layer -->
+  <line x1="341" y1="140" x2="341" y2="180" stroke="#6fe38a" stroke-width="1.5"/>
+  <polygon points="341,180 337,172 345,172" fill="#6fe38a"/>
+
+  <rect x="226" y="184" width="230" height="56" rx="6" fill="#111113" stroke="rgba(255,255,255,0.16)"/>
+  <text x="341" y="207" fill="#f2f2f0" font-size="12" text-anchor="middle">GET /api/events(/:id)</text>
+  <text x="341" y="224" fill="#8a8a8e" font-size="10" text-anchor="middle">CORS-scoped, added for this purpose</text>
+
+  <!-- arrow to consoleview -->
+  <line x1="456" y1="212" x2="514" y2="212" stroke="#6fe38a" stroke-width="1.5"/>
+  <polygon points="514,212 506,208 506,216" fill="#6fe38a"/>
+
+  <rect x="518" y="184" width="190" height="56" rx="6" fill="#111113" stroke="rgba(255,255,255,0.16)"/>
+  <text x="613" y="207" fill="#f2f2f0" font-size="12" text-anchor="middle">ConsoleView</text>
+  <text x="613" y="224" fill="#8a8a8e" font-size="10" text-anchor="middle">Angular, separate app</text>
+</svg>
