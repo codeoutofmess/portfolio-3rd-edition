@@ -1,0 +1,47 @@
+<svg viewBox="0 0 760 290" xmlns="http://www.w3.org/2000/svg" font-family="ui-monospace, 'JetBrains Mono', monospace">
+<rect width="760" height="290" fill="#0a0a0b"/>
+<text x="40" y="34" fill="#f2f2f0" font-size="13">One patrol = 14 knife loops (117.6 s)</text>
+<text x="40" y="52" fill="#8a8a8e" font-size="11">Every leg of the walk is a whole number of 8.4 s loops, so each turn lands on a loop boundary</text>
+<line x1="40.0" y1="140" x2="185.7" y2="140" stroke="#6fe38a" stroke-width="4"/>
+<line x1="185.7" y1="140" x2="191.5" y2="140" stroke="#f2f2f0" stroke-width="8"/>
+<line x1="191.5" y1="140" x2="337.2" y2="140" stroke="#6fe38a" stroke-width="4"/>
+<line x1="337.2" y1="140" x2="380.0" y2="140" stroke="#55555a" stroke-width="4" stroke-dasharray="4 4"/>
+<line x1="380.0" y1="140" x2="525.7" y2="140" stroke="#6fe38a" stroke-width="4"/>
+<line x1="525.7" y1="140" x2="531.5" y2="140" stroke="#f2f2f0" stroke-width="8"/>
+<line x1="531.5" y1="140" x2="677.2" y2="140" stroke="#6fe38a" stroke-width="4"/>
+<line x1="677.2" y1="140" x2="720.0" y2="140" stroke="#55555a" stroke-width="4" stroke-dasharray="4 4"/>
+<line x1="40.0" y1="132" x2="40.0" y2="148" stroke="rgba(255,255,255,0.32)" stroke-width="1"/>
+<text x="40.0" y="174" fill="#8a8a8e" font-size="10" text-anchor="middle">0 L</text>
+<line x1="88.6" y1="132" x2="88.6" y2="148" stroke="rgba(255,255,255,0.32)" stroke-width="1"/>
+<line x1="137.1" y1="132" x2="137.1" y2="148" stroke="rgba(255,255,255,0.32)" stroke-width="1"/>
+<line x1="185.7" y1="124" x2="185.7" y2="156" stroke="#6fe38a" stroke-width="1.5"/>
+<text x="185.7" y="174" fill="#6fe38a" font-size="10" text-anchor="middle">3 L</text>
+<line x1="234.3" y1="132" x2="234.3" y2="148" stroke="rgba(255,255,255,0.32)" stroke-width="1"/>
+<line x1="282.9" y1="132" x2="282.9" y2="148" stroke="rgba(255,255,255,0.32)" stroke-width="1"/>
+<line x1="331.4" y1="132" x2="331.4" y2="148" stroke="rgba(255,255,255,0.32)" stroke-width="1"/>
+<line x1="380.0" y1="132" x2="380.0" y2="148" stroke="rgba(255,255,255,0.32)" stroke-width="1"/>
+<text x="380.0" y="174" fill="#8a8a8e" font-size="10" text-anchor="middle">7 L</text>
+<line x1="428.6" y1="132" x2="428.6" y2="148" stroke="rgba(255,255,255,0.32)" stroke-width="1"/>
+<line x1="477.1" y1="132" x2="477.1" y2="148" stroke="rgba(255,255,255,0.32)" stroke-width="1"/>
+<line x1="525.7" y1="124" x2="525.7" y2="156" stroke="#6fe38a" stroke-width="1.5"/>
+<text x="525.7" y="174" fill="#6fe38a" font-size="10" text-anchor="middle">10 L</text>
+<line x1="574.3" y1="132" x2="574.3" y2="148" stroke="rgba(255,255,255,0.32)" stroke-width="1"/>
+<line x1="622.9" y1="132" x2="622.9" y2="148" stroke="rgba(255,255,255,0.32)" stroke-width="1"/>
+<line x1="671.4" y1="132" x2="671.4" y2="148" stroke="rgba(255,255,255,0.32)" stroke-width="1"/>
+<line x1="720.0" y1="132" x2="720.0" y2="148" stroke="rgba(255,255,255,0.32)" stroke-width="1"/>
+<text x="720.0" y="174" fill="#8a8a8e" font-size="10" text-anchor="middle">14 L</text>
+<text x="40" y="270" fill="#8a8a8e" font-size="10">green = walking · white = turning · dashed = hidden behind the FMKR lockup · ticks = knife-animation loops (L)</text>
+<text x="188.6" y="92" fill="#6fe38a" font-size="11" text-anchor="middle">RIGHT EDGE</text>
+<text x="188.6" y="105" fill="#8a8a8e" font-size="10" text-anchor="middle">turn (1 s) = loop 3 ends</text>
+<text x="528.6" y="92" fill="#6fe38a" font-size="11" text-anchor="middle">LEFT EDGE</text>
+<text x="528.6" y="105" fill="#8a8a8e" font-size="10" text-anchor="middle">turn (1 s) = loop 10 ends</text>
+<text x="112.9" y="202" fill="#f2f2f0" font-size="11" text-anchor="middle">walks right</text>
+<text x="112.9" y="215" fill="#8a8a8e" font-size="10" text-anchor="middle">~25 px/s</text>
+<text x="264.4" y="202" fill="#f2f2f0" font-size="11" text-anchor="middle">walks left</text>
+<text x="358.6" y="202" fill="#8a8a8e" font-size="11" text-anchor="middle">behind the name</text>
+<text x="358.6" y="215" fill="#8a8a8e" font-size="10" text-anchor="middle">7.4 s unseen</text>
+<text x="452.9" y="202" fill="#f2f2f0" font-size="11" text-anchor="middle">walks left</text>
+<text x="604.4" y="202" fill="#f2f2f0" font-size="11" text-anchor="middle">walks right</text>
+<text x="698.6" y="202" fill="#8a8a8e" font-size="11" text-anchor="middle">behind</text>
+<text x="698.6" y="215" fill="#8a8a8e" font-size="10" text-anchor="middle">the name</text>
+</svg>
