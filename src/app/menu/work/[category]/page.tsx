@@ -12,6 +12,7 @@ const CATEGORIES: ProjectCategory[] = ["dev", "design"];
 const LOGO_FALLBACK: Record<string, string> = {
   "boombapbombay": "BOOM BAP BOMBAY",
   "fmkr": "FMKR",
+  "fly-eire": "FLY.EIRE",
   "wellington-chess-club": "WELLINGTON CHESS CLUB",
   "first90-nz": "FIRST90 NZ",
   "paste-up": "PASTE UP",
