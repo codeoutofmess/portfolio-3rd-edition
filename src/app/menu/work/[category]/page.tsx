@@ -11,6 +11,7 @@ const CATEGORIES: ProjectCategory[] = ["dev", "design"];
 /** Until real logo files are dropped in, these labels stand in for them. */
 const LOGO_FALLBACK: Record<string, string> = {
   "boombapbombay": "BOOM BAP BOMBAY",
+  "fmkr": "FMKR",
   "wellington-chess-club": "WELLINGTON CHESS CLUB",
   "first90-nz": "FIRST90 NZ",
   "paste-up": "PASTE UP",

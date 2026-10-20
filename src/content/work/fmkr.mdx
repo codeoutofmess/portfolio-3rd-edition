@@ -1,86 +1,73 @@
 ---
-title: "Making a Mumbai record label read as a company, and giving it a homepage nobody mistakes for a template"
-summary: "Logo, brand values and website for Fat Man Kills Records, structured around the people who visit it and built around one idea: FMKR isn't a label that releases songs, it's a company that owns catalogue and builds brands. The homepage is art-directed end to end, from a hand-drawn knife animation to a mascot that walks the top of the screen in time with it."
-cardSummary: "A label site that reads as a company, with a mascot that walks in time to the hero"
+title: "FMKR: a record label site that reads as a company"
+summary: "Logo, brand values and website for Fat Man Kills Records, designed around who visits it, then rebuilt around a hand-drawn hero and a walking mascot."
 client: "Fat Man Kills Records"
 kind: "client"
 category: "dev"
 role: ["Logo & brand values", "Art direction", "Web design", "Motion design", "Front-end development"]
 year: "2026"
-duration: "Original build July 2026, full homepage redesign October 2026"
+duration: "Built July 2026, homepage redesigned October 2026"
 tags: ["Next.js", "TypeScript", "Tailwind CSS", "Motion design", "Information architecture", "Accessibility"]
 coverImage: "/images/work/fmkr/cover.png"
-coverAlt: "The FMKR landing page: a hand-drawn knife animation across the screen, the blue FMKR lockup at the top with a small walking mascot beside it, and the site links in the bottom-right corner"
+coverAlt: "The FMKR landing page: a hand-drawn knife animation across the screen, the blue FMKR lockup at the top with a small walking mascot, and the site links in the bottom-right corner"
 links:
   live: "https://www.fmkrecords.com"
 featured: true
 order: 1
 ---
 
-Fat Man Kills Records is an independent music company in Mumbai, run by FMKRP LLP. Its sibling, Boom Bap Bombay, is the culture platform I built a site for earlier. I designed the logo and brand values, then the website, and in October I rebuilt the homepage from scratch after deciding the first version, though sound, looked like every other label site. This page covers the thinking, the parts that were hard, and what I'd still change.
+Fat Man Kills Records is an independent music company in Mumbai, run by FMKRP LLP. I designed the logo and brand values, built the site, and in October rebuilt the homepage because the first version, though sound, looked like every other label site.
 
-## A label that isn't only a label
+## 1. The problem
 
-Most label sites are a roster and a list of releases, which is the right shape for a label that releases songs. FMKR describes itself differently: not a label that releases songs, but a company that owns catalogue and builds brands. A roster-and-releases site would have undersold that, so the job was to make the homepage say "company" early without turning into a corporate brochure.
+Most label sites are a roster and a list of releases. FMKR describes itself as something else: not a label that releases songs, but a company that owns catalogue and builds brands. The site had to say "company" early without becoming a corporate brochure.
 
-## Built around who's visiting
+## 2. Structure it around who visits
 
-Three kinds of people turn up. Artists want to know whether FMKR is worth sending music to. Partners want to know what the company can do for them. Licensors want to know who to talk to about rights. I organised the site around those questions rather than the label's own org chart: Artists, Releases, Services, About and Contact, with Services (label services, distribution, publishing, sync and licensing) sitting next to the music instead of buried in a footer.
+Three kinds of people turn up, and each arrives with a question. Artists ask whether FMKR is worth sending music to. Partners ask what it can do for them. Licensors ask who to talk to about rights. So the navigation answers those questions (Artists, Releases, Services, About, Contact) instead of mirroring the label's org chart. Services sits next to the music rather than in a footer, because a partner shouldn't have to hunt for it.
 
-Contact does the same job. Enquiries go to separate desks, so a demo reaches A&R and a licensing request reaches rights. Someone sending a demo and someone clearing a track are asking for different things and shouldn't share an inbox.
+Contact routes enquiries to separate desks, so a demo reaches A&R and a licensing request reaches rights. Both senders get a reply from the right person.
 
-## Art direction: one object, not a collage
+## 3. Direction for the redesign
 
-My first homepage passes were competent and forgettable. A 3D object floating in a dark studio, a glowing orb, text over a gradient: the visual vocabulary that makes people dismiss a site as generated before they've read it. I rejected them and wrote myself rules instead. One confident hero object. A couple of elements scaled huge and everything else small, so the hero is never crowded. Gestalt principles for grouping and alignment. Anything important has to be the easiest thing on the screen to spot.
+My first redesign passes were generic: a floating 3D object, a glowing orb, text over a gradient. I set rules instead, each with a reason:
 
-The hero object is a knife animation I drew by hand, frame by frame, laid across the whole screen. I tried other ideas first and cut them: a 3D mask, the logo itself, a vinyl record. Each was a good picture that didn't carry the brand. The drawing did, because it looks like something someone made.
+- **One hero object.** A single focal point means a first-time visitor knows where to look. I tried a 3D mask, the logo and a vinyl record, and kept the one thing that looked made by a person: a knife animation I drew frame by frame.
+- **A few huge elements, the rest small.** An uncrowded hero reads in a second.
+- **No header bar.** A strip across the top reads as a separate section, so the links live in the page itself.
 
-![The landing page: the hand-drawn knife animation, the FMKR lockup, and the site links stacked at the bottom right](/images/work/fmkr/cover.png)
+![The landing page](/images/work/fmkr/cover.png)
 
-## Navigation as a composition
+## 4. Navigation that gets out of the way
 
-A header bar reads as a separate section, which was the opposite of what I wanted. On the landing page the links are a large stack in the corner that scrolls away with the page like everything else. Once they've gone, a Menu button appears and summons the same stack over wherever you are, with no panel behind it.
+On the landing page the links are a large stack in the corner, so you don't need a menu to find them. When they scroll out of view, a Menu button appears so navigation is always one click away, never two controls at once. It reopens the same stack over wherever you are with no panel behind it, so you keep your place. The links change colour against the page (blue on paper, gold over dark) so they stay readable on every section.
 
-Everything is blended against the page, so the colour does the work: the links come out blue on paper and flip to gold or purple wherever a dark or blue section passes under them. That took a negative-colour trick (the link colour is the *inverse* of the blue I want, which a `difference` blend turns back into blue), not a separate dark-mode style.
+![The menu opened over the statement band](/images/work/fmkr/menu-overlay.png)
 
-![The menu summoned over the statement band, its links inverting against the blue](/images/work/fmkr/menu-overlay.png)
+## 5. A mascot, drawn to walk
 
-## The mascot, and why I drew its legs
+The logo's mascot walks the top of the hero, passing behind the FMKR lockup. The logo's own legs hang from two different hips, so the back foot only ever dragged. I kept the drawn head and coat and drew new legs in the same outline, both from one hip, scissoring past each other. It's all SVG and CSS.
 
-The logo has a mascot, and I wanted it walking along the top of the hero, slowly and confidently, passing behind the FMKR lockup. The logo drawing has its legs on two different hips, one far behind and one ahead, so however you swing them the back foot never gets past the front one. It just drags. That's exactly how my first attempt looked.
+![One walk cycle in nine steps](/images/work/fmkr/walk-cycle.png)
 
-So I kept the drawn head and coat, and drew new legs in the same bold outline: baggy at the thigh, tapering to the cuff, both hanging from one hip and scissoring past each other half a cycle apart. Each leg swings, lifts as it comes forward and plants; the shoes stay flat; the body dips when both feet are down so the planted foot doesn't slide. All of it is SVG and CSS keyframes, with no animation library.
+I also timed the walk to the knife animation: each crossing is three of its 8.4-second loops, so he reaches the screen edge and turns exactly as a loop ends. The page can't read an animated image's clock, so a small component starts both together and re-aligns them after scrolling away. I checked it frame by frame and measured a 0 ms offset.
 
-![One walk cycle in nine steps: the legs spread, pass each other and swap](/images/work/fmkr/walk-cycle.png)
+![The patrol timeline](/images/work/fmkr/patrol-timeline.svg)
 
-## Timing the mascot to the animation
+## 6. A billboard for the newest release
 
-The brief for the last detail was precise: when the knife animation reaches the end of its loop, the mascot should reach the right edge of the screen and turn round. The catch is that an animated image keeps its own clock, which the page can neither read nor seek, while the mascot runs on a CSS animation with a different start.
+The latest releases fill the screen: a muted preview, the details in the middle, the rest lined up to skip to. The listen links are right there because a visitor who came to hear something shouldn't have to dig. Auto-advance has a visible pause control. Video only loads when the section is on screen, and on phones, with data-saver or with reduced motion it falls back to still images.
 
-I made every stretch of the walk a whole number of the knife's 8.4-second loops, so each crossing is three loops and both turns land on loop boundaries. A small component holds the mascot until the knife has loaded and then starts both together. It also re-aligns them when the hero scrolls back into view, because browsers can pause an animated image off-screen while CSS carries on. I checked it by screenshotting the page at about 20 frames per second and cross-correlating the knife's frame changes against the mascot's clock: a 0 ms offset, including after scrolling away and back.
+![The latest-releases billboard with stand-in footage](/images/work/fmkr/showcase.jpg)
 
-![The patrol timeline: 14 knife loops, with the edge turns landing on loops 3 and 10](/images/work/fmkr/patrol-timeline.svg)
+## 7. Problems found by running it
 
-## A billboard for the latest releases
+- Smoothing the knife frames with an SVG filter quietly deleted the fine lines I'd drawn, so I re-rendered the animation once at 2400 px instead.
+- A statement band was rendering white on white, a blank screen on the live site, because a style read the accent colour after redefining it. I fixed it with a separate token.
+- The header flashed its old layout on refresh. The first paint is now the final layout.
 
-Below the landing, the latest releases fill the screen like a streaming service's billboard: a muted preview behind the newest release's details, the rest lined up along the bottom to skip to, and each one auto-advancing after twelve seconds. The progress bar on the active card *is* the timer, so the two can't disagree, and pausing is a single CSS property.
+## Result
 
-It's built to be considerate: nothing loads until it's on screen, it pauses in a background tab, it has a visible pause control, and below tablet width, with data-saver, or with reduced motion it falls back to still images and loads no video at all.
+Live at [fmkrecords.com](https://www.fmkrecords.com). Lighthouse on the redesigned homepage: **91 performance, 96 accessibility, 100 best practices, 100 SEO**, with a 0.8 s largest paint and no layout shift. The hero's weight costs Speed Index (3.6 s), and the one accessibility flag is a deliberately faint decorative word.
 
-![The latest-releases billboard with stand-in preview footage](/images/work/fmkr/showcase.jpg)
-
-## Problems I only found by running it
-
-- **Smoothing that deleted the drawing.** The knife frames are only 480 pixels wide and stair-stepped when stretched across a screen, so I smoothed them with an SVG filter. It looked clean and quietly erased the fine hairlines I'd drawn. I replaced it with a one-off offline render at 2400 pixels that rounds the edges without fusing or dropping a stroke.
-- **A section that rendered white on white.** The accent statement band had been blank, a full screen of nothing, on the live site from the original build. Its class read the accent colour *after* redefining it to white. I fixed it with a separate token that nothing overrides.
-- **A flash of the old layout on refresh.** The header rendered compact first and animated into the poster layout after the page hydrated. I made the first paint the final layout, covered the first frame with the preloader from a head script, and stopped the page wipe from playing on initial load.
-
-## Under the hood, and what it measures
-
-Content lives in typed TypeScript validated with Zod, read only through one adapter, so the site could move to a CMS without touching a component. Colour, type and spacing sit in a three-layer token system, and a route group sets the brand scope on the server so there's no flash of the wrong palette. I built it with AI tools, and I review, test and own everything that ships.
-
-I measured the live homepage with Lighthouse (desktop) after the redesign, not before it: **91 performance, 96 accessibility, 100 best practices, 100 SEO**, with a 0.8 s largest paint, no layout shift and no blocking time. The cost of the hero shows up in Speed Index (3.6 s), because of a 1.9 MB animation. The single accessibility failure is the deliberately faint, decorative "OUTLAST" word flagged by the contrast audit.
-
-## What's real and what isn't
-
-The structure, design system and engineering are real and live at [fmkrecords.com](https://www.fmkrecords.com). The roster, releases and press copy are placeholder content. The artist portraits and the preview footage in the billboard are stand-ins, frames from other artists' official videos, shown until the label has its own. I've tested in Chrome only, so Safari and real phones are still to check.
+The structure and engineering are real. The roster, releases, artist portraits and billboard footage are placeholders for now, and I've tested in Chrome only. Built with AI tools; I review, test and own everything that ships.
