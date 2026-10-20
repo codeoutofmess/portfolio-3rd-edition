@@ -1,0 +1,36 @@
+<svg viewBox="0 0 760 200" xmlns="http://www.w3.org/2000/svg" font-family="ui-monospace, 'JetBrains Mono', monospace">
+  <rect width="760" height="200" fill="#0a0a0b"/>
+
+  <rect x="16" y="64" width="132" height="72" rx="6" fill="#111113" stroke="rgba(255,255,255,0.16)"/>
+  <text x="82" y="92" fill="#f2f2f0" font-size="12" text-anchor="middle">AWS Terrain</text>
+  <text x="82" y="108" fill="#f2f2f0" font-size="12" text-anchor="middle">Tiles</text>
+  <text x="82" y="125" fill="#8a8a8e" font-size="10" text-anchor="middle">public elevation data</text>
+
+  <line x1="148" y1="100" x2="176" y2="100" stroke="#6fe38a" stroke-width="1.5"/>
+  <polygon points="176,100 168,96 168,104" fill="#6fe38a"/>
+
+  <rect x="180" y="64" width="132" height="72" rx="6" fill="#111113" stroke="rgba(255,255,255,0.16)"/>
+  <text x="246" y="92" fill="#f2f2f0" font-size="12" text-anchor="middle">build-ireland</text>
+  <text x="246" y="108" fill="#8a8a8e" font-size="10" text-anchor="middle">Node script, no deps</text>
+  <text x="246" y="125" fill="#6fe38a" font-size="10" text-anchor="middle">crop + 16-bit pack</text>
+
+  <line x1="312" y1="100" x2="340" y2="100" stroke="#6fe38a" stroke-width="1.5"/>
+  <polygon points="340,100 332,96 332,104" fill="#6fe38a"/>
+
+  <rect x="344" y="64" width="132" height="72" rx="6" fill="#111113" stroke="rgba(255,255,255,0.16)"/>
+  <text x="410" y="92" fill="#f2f2f0" font-size="12" text-anchor="middle">heightmap PNG</text>
+  <text x="410" y="108" fill="#8a8a8e" font-size="10" text-anchor="middle">metres in R + G</text>
+  <text x="410" y="125" fill="#8a8a8e" font-size="10" text-anchor="middle">shipped as a static file</text>
+
+  <line x1="476" y1="100" x2="504" y2="100" stroke="#6fe38a" stroke-width="1.5"/>
+  <polygon points="504,100 496,96 496,104" fill="#6fe38a"/>
+
+  <rect x="508" y="40" width="236" height="120" rx="6" fill="#0d1f14" stroke="rgba(255,255,255,0.16)"/>
+  <text x="626" y="66" fill="#f2f2f0" font-size="12" text-anchor="middle">Three.js + GLSL, in the browser</text>
+  <text x="626" y="90" fill="#8a8a8e" font-size="10" text-anchor="middle">relief shader: tints, hillshade,</text>
+  <text x="626" y="104" fill="#8a8a8e" font-size="10" text-anchor="middle">contours, engraved sea</text>
+  <text x="626" y="124" fill="#8a8a8e" font-size="10" text-anchor="middle">drone controller, HUD, pins</text>
+  <text x="626" y="144" fill="#6fe38a" font-size="10" text-anchor="middle">landmark panels (HTML)</text>
+
+  <text x="380" y="186" fill="#55555a" font-size="10" text-anchor="middle">run once at build time: npm run terrain</text>
+</svg>

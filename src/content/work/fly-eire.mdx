@@ -1,0 +1,91 @@
+---
+title: "FLY.EIRE: a drone filmmaker's site you navigate by flying"
+summary: "A portfolio and booking site for a Dublin drone filmmaker starting out. Instead of a menu you fly a drone over a shaded-relief map of Ireland, built from real terrain data, and five landmarks open the films, services, grading demo, gear and booking form."
+cardSummary: "A drone filmmaker's site you navigate by flying over real Irish terrain"
+client: "FLY.EIRE"
+kind: "client"
+category: "dev"
+role: ["Concept & interaction design", "Web design", "Front-end development", "WebGL / shaders"]
+year: "2026"
+duration: "From October 2026, still in development"
+tags: ["Three.js", "WebGL / GLSL", "JavaScript", "Vite", "Interaction design", "Accessibility"]
+coverImage: "/images/work/fly-eire/cover.jpg"
+coverAlt: "The FLY.EIRE start screen: the wordmark in huge light type over a faint shaded-relief map of Ireland, a Take off button, and a strip of flight controls along the bottom"
+links:
+  live: "https://fly-eire.vercel.app"
+featured: true
+order: 2
+---
+
+FLY.EIRE is the site for a drone filmmaker in Dublin who is turning a hobby into a business and has no client base yet. I came up with the concept, designed it and built it. It's live on a temporary address while it's still in development, and it will become his official site.
+
+## 1. The problem
+
+A drone filmmaker sells how a place looks from the air and how smoothly a camera moves through it. A grid of thumbnails can only point at that, and it puts a new filmmaker in direct competition with everyone else's grid. The site had to show the work and take bookings for weddings, cars, sport, property and commercial shoots.
+
+So I made the navigation the sample. There's no menu bar. You take off, fly over Ireland, and the sections are places you fly to.
+
+## 2. Five places, five sections
+
+Each section is a landmark pinned to a real place chosen to match what's inside.
+
+| Landmark | Where | Opens |
+| --- | --- | --- |
+| Archive | Cliffs of Moher | The films |
+| Services | Giant's Causeway | The six shoot types |
+| Grade Lab | Kerry | Log footage against the finished grade |
+| Gear | Wicklow Mountains | Kit and the pilot |
+| Book a Date | Dublin | Availability and a request form |
+
+![Flying over the map, with record timecode, compass tape, altitude, speed and a radar](/images/work/fly-eire/flight-hud.jpg)
+
+The HUD makes it feel like looking through goggles, and it also works: the compass and radar are how you find the landmarks.
+
+## 3. Four attempts at the world
+
+The hard design problem was what the world should look like, and three of my four answers were wrong.
+
+1. **A procedural 3D coastline.** It flew well but read as an old video game, because grass, rock and water built from noise look like noise.
+2. **Photoreal map tiles.** They need a mapping account with billing switched on, and I wasn't going to make the client depend on one for his homepage.
+3. **A photoreal still with a depth map, flown in 2.5D.** The still was beautiful. Flying through it wasn't: big camera moves tear the picture apart and it feels like zooming into a photo.
+4. **A printed shaded-relief map.** I stopped chasing realism and chose a look that doesn't have to pretend: real elevation data drawn like a cartographer's print, with hypsometric tints, a north-west hillshade with cast shadows, contour lines, an engraved sea and serif place names. It's honest about being a map and looks deliberate and calm.
+
+The lesson was to choose a visual language the technology can fully deliver, not one it can only half deliver.
+
+## 4. Navigation that stays usable
+
+The test for a novel navigation is whether someone who only wants a price or a date can get there without a manual. A flight that looks good and leaves people lost is worse than a menu.
+
+- **Click a pin and the drone flies there**, then opens the section.
+- **You never have to hunt.** On leaving a landmark the drone turns toward the heading that shows the most of the other landmarks. I added this after testing, when looking around again after every section felt like a chore.
+- **A menu and a "Book a date" button are always there**, so the flight is never the only way in.
+- **Controls are shown before you need them**, on the start screen and in flight until your first input.
+- **It degrades.** With no WebGL the flight is skipped and the menu opens each section directly. Phones get a joystick and tap-to-fly pins, resolution lowers itself on slow laptops, and there's no audio, so nothing plays unexpectedly.
+
+![The landmark menu over the map](/images/work/fly-eire/menu.jpg)
+
+## 5. Sections built around how he sells
+
+- **Grade Lab** exists because of one line in his brief: he shoots in Log and can hand over raw files, but recommends his own finish. Saying that is weak, so a slider lets you drag between flat Log footage and the graded film. It works with a keyboard and has screen-reader labels.
+- **Services** is structured data: for each shoot type, who it's for, what's included and the usual deliverable, so a couple and a property agent each find their answer fast. "Book this shoot" opens the form with that type chosen.
+- **Book a Date** is a request, not an instant booking, because a new business should confirm dates by hand and weather can move a shoot.
+
+## 6. How it's built
+
+Vite, vanilla JavaScript and Three.js, with GLSL for the map. No framework: the page is one canvas, a HUD and a few panels. All copy lives in one content file, so the client can be told which lines to change.
+
+![Build pipeline: public elevation tiles are packed by a one-off Node script into a heightmap that the Three.js relief shader draws in the browser](/images/work/fly-eire/pipeline.svg)
+
+A short dependency-free Node script crops public elevation tiles to Ireland and packs them into one 16-bit heightmap. The shader does the rest on the GPU: hillshade, shadows, contours and sea lines, with haze so low views melt into the paper and top-down views stay crisp.
+
+## 7. Problems found by running it
+
+- A patch of black danced across the top of the screen on real machines but never in my preview. In my earlier realistic prototype, a stray invalid pixel was smeared into blocks by the bloom effect, which only the full-quality path used. I filtered invalid values before the bloom. A fast preview had hidden a bug in the expensive path.
+- The build failed on top-level `await`, so I set the build target explicitly instead of restructuring the loader.
+- Flight speed felt sluggish on screen. Free flight, auto-fly and the exit turn all went through rounds of tuning by feel, not by physics.
+
+## Result
+
+Live at [fly-eire.vercel.app](https://fly-eire.vercel.app) while the final domain is set up.
+
+The concept, interaction, terrain pipeline, shader and code are real. The film tiles are placeholders, the email address is a placeholder (so the form opens the visitor's email app for now), and the service details, gear list and booked dates are drafts for the client to confirm. I've tested in Chrome only. Built with AI tools; I review, test and own everything that ships.
