@@ -1,6 +1,6 @@
 export const site = {
   name: "Pradyumna Vishwanath",
-  role: "Product designer & developer",
+  role: "Creative designer & developer",
   tagline: "Making tech that doesn't bite.",
   email: "pradyumnav1511@gmail.com",
   url: "https://www.pradyumna-design.com",
@@ -10,6 +10,8 @@ export const site = {
     github: "https://github.com/codeoutofmess",
   },
   resumeUrl: "/resume.pdf",
+  resumeDevUrl: "/resume-dev.pdf",
+  resumeUxUrl: "/resume-ux.pdf",
   availableToWork: true,
-  edition: "2ND EDITION",
+  edition: "3RD EDITION",
 };

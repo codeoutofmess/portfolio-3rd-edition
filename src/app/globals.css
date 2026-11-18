@@ -2,27 +2,52 @@
 @plugin "@tailwindcss/typography";
 
 :root {
-  --color-bg: #0a0a0b;
-  --color-panel: #111113;
-  --color-tint: #0d1f14;
-  --color-ink: #f2f2f0;
-  --color-ink-soft: #8a8a8e;
-  --color-ink-dim: #55555a;
-  --color-line: rgba(255, 255, 255, 0.16);
-  --color-accent: #6fe38a;
+  --color-bg: #f6f6f4;
+  --color-ink: #0b0b0b;
+  --color-ink-soft: #4a4a45;
+  --color-ink-dim: #7c7c76;
+  --color-line: rgba(11, 11, 11, 0.14);
+  --folder-back: #c4c4be;
+  --folder-front: #e6e6e1;
+  --dial: min(94vw, 72svh, 600px); /* the dial's width; keep in step with dialWidth() in use-mobile.ts */
+  --ring: 1; /* how much bigger the menu ring is than on desktop; keep in step with CONFIG.r1Phone in dial-menu.tsx */
+  color-scheme: light;
+}
+@media (max-width: 767.98px) {
+  :root {
+    --dial: min(82vw, 72svh, 600px);
+    --ring: 1.2059; /* 205 / 170 */
+  }
+}
+
+/* Set on <html> by the inline script in layout.tsx (NZ time unless the visitor chose). */
+:root[data-theme="dark"] {
+  --color-bg: #0e0e0d;
+  --color-ink: #f1f1ee;
+  --color-ink-soft: #b6b6af;
+  --color-ink-dim: #8d8d86;
+  --color-line: rgba(241, 241, 238, 0.16);
+  --folder-back: #3b3b38;
+  --folder-front: #4d4d49;
+  color-scheme: dark;
 }
 
 @theme inline {
   --color-bg: var(--color-bg);
-  --color-panel: var(--color-panel);
-  --color-tint: var(--color-tint);
   --color-ink: var(--color-ink);
   --color-ink-soft: var(--color-ink-soft);
   --color-ink-dim: var(--color-ink-dim);
   --color-line: var(--color-line);
-  --color-accent: var(--color-accent);
-  --font-mono: var(--font-jetbrains-mono);
-  --font-sans: var(--font-jetbrains-mono);
+  --font-sans: var(--font-instrument-sans);
+  --font-display: var(--font-display);
+  --font-title: var(--font-bricolage);
+  --font-file: var(--font-geist-mono);
+}
+
+html {
+  font-size: 106.25%;
+  /* No rubber-band: it drags the absolutely positioned header down. */
+  overscroll-behavior: none;
 }
 
 body {
@@ -30,93 +55,194 @@ body {
   color: var(--color-ink);
 }
 
+/* The ball cursor (components/ball-cursor) replaces the pointer for mouse and trackpad users. */
+html.ball-cursor,
+html.ball-cursor * {
+  cursor: none !important;
+}
+
 ::selection {
-  background: var(--color-accent);
-  color: #0a0a0b;
+  background: var(--color-ink);
+  color: var(--color-bg);
 }
 
-.dot-grid {
-  background-image: radial-gradient(rgba(255, 255, 255, 0.09) 1px, transparent 1px);
-  background-size: 28px 28px;
-}
-
-.hud-frame {
-  position: relative;
-}
-
-.hud-corner {
-  position: absolute;
-  width: 14px;
-  height: 14px;
-  pointer-events: none;
-}
-
-.hud-corner-tl {
-  top: -1px;
-  left: -1px;
-  border-top: 1.5px solid var(--color-ink-soft);
-  border-left: 1.5px solid var(--color-ink-soft);
-}
-
-.hud-corner-tr {
-  top: -1px;
-  right: -1px;
-  border-top: 1.5px solid var(--color-ink-soft);
-  border-right: 1.5px solid var(--color-ink-soft);
-}
-
-.hud-corner-bl {
-  bottom: -1px;
-  left: -1px;
-  border-bottom: 1.5px solid var(--color-ink-soft);
-  border-left: 1.5px solid var(--color-ink-soft);
-}
-
-.hud-corner-br {
-  bottom: -1px;
-  right: -1px;
-  border-bottom: 1.5px solid var(--color-ink-soft);
-  border-right: 1.5px solid var(--color-ink-soft);
-}
-
-@keyframes blink {
-  0%,
-  49% {
-    opacity: 1;
+@keyframes dial-dwell {
+  to {
+    stroke-dashoffset: 0;
   }
-  50%,
-  100% {
+}
+
+/* Work files fly out from the dial; `to` is each file's own transform. */
+@keyframes file-in {
+  from {
+    transform: translate(var(--from-x), var(--from-y)) scale(0.2);
     opacity: 0;
   }
 }
 
-.cursor-blink {
-  animation: blink 1s step-end infinite;
-}
-
-@keyframes fade-up {
+@keyframes file-details {
   from {
     opacity: 0;
-    transform: translateY(10px);
+    transform: translateY(6px);
+  }
+}
+
+/* Reduced motion: the big fly-in animations become plain fades. */
+@media (prefers-reduced-motion: reduce) {
+  @keyframes file-in {
+    from {
+      opacity: 0;
+    }
+  }
+  @keyframes file-details {
+    from {
+      opacity: 0;
+    }
+  }
+}
+
+/* The opening loader (components/loader). Timeline, in seconds: 0 one ball, alone; the counter holds at 0 until 0.35;
+   0.5 four balls shoot out; 0.35 to 2.45 the counter climbs and the balls turn through one full circle on the same curve
+   (speeding up, then easing off for the last tenth), ending exactly where the real dial starts; 1.0 to 2.4 the site's
+   files come in from off screen and fade away as they reach the middle; 2.45 the counter goes and the ring draws
+   itself from the top ball round to it again; 2.7 the overlay fades to the real page and the text starts to type in. */
+html[data-seen] .intro-root {
+  display: none;
+}
+.intro-root {
+  animation: intro-away 0.35s ease-in-out 2.7s forwards;
+}
+.intro-knob {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: intro-ball 0.5s cubic-bezier(0.2, 1.5, 0.4, 1) backwards;
+}
+.intro-piece {
+  transform: translate(var(--x), var(--y));
+  animation: intro-converge 0.55s linear var(--go) forwards;
+}
+.intro-orbit {
+  transform-origin: 0 0;
+  animation: intro-orbit 2.1s linear 0.35s forwards; /* on the counter's curve (set in the keyframes), ending at exactly 360deg */
+}
+.intro-shot {
+  opacity: 0;
+  transform: translate(calc(var(--bx) * -1), calc(var(--by) * -1));
+  animation: intro-shoot 0.5s cubic-bezier(0.15, 0.9, 0.3, 1.25) forwards;
+}
+.intro-count {
+  opacity: 0;
+  animation:
+    intro-fade 0.25s ease-out 0.15s forwards,
+    intro-count-out 0.2s ease-in 2.45s forwards;
+}
+.intro-clock {
+  animation: intro-clock 2.1s linear 0.35s both; /* the same delay and length as the orbit: they run in step */
+}
+
+@keyframes intro-ball {
+  from {
+    transform: scale(0);
+  }
+}
+@keyframes intro-converge {
+  /* One straight move at a steady pace. The file keeps its full size, the same as on the site, for most of the way, and
+     only shrinks and fades over the last stretch as it reaches the dial, like the folders do when you switch between Work and Archive. */
+  78% {
+    opacity: 1;
+    transform: translate(calc(var(--x) * 0.22), calc(var(--y) * 0.22)) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translate(0, 0) scale(0.2);
+  }
+}
+@keyframes intro-fade {
+  to {
+    opacity: 1;
+  }
+}
+@keyframes intro-shoot {
+  from {
+    opacity: 1;
   }
   to {
     opacity: 1;
-    transform: translateY(0);
+    transform: translate(0, 0);
+  }
+}
+/* One curve for the counter and the turning balls: it speeds up, then eases off for the last tenth. */
+@keyframes intro-orbit {
+  0% {
+    transform: rotate(0deg);
+    animation-timing-function: cubic-bezier(0.4, 0, 0.85, 0.55);
+  }
+  78% {
+    transform: rotate(324deg);
+    animation-timing-function: cubic-bezier(0.1, 0.7, 0.4, 1);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+@keyframes intro-count-out {
+  to {
+    opacity: 0;
+    transform: translateY(-22px);
+  }
+}
+@keyframes intro-clock {
+  0% {
+    opacity: 0;
+    animation-timing-function: cubic-bezier(0.4, 0, 0.85, 0.55);
+  }
+  78% {
+    opacity: 0.9;
+    animation-timing-function: cubic-bezier(0.1, 0.7, 0.4, 1);
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes intro-away {
+  to {
+    opacity: 0;
+    visibility: hidden;
   }
 }
 
-.fade-up {
-  opacity: 0;
-  animation: fade-up 0.6s ease forwards;
-}
-
+/* Reduced motion: no flying or shooting, just the dark screen fading to the page. */
 @media (prefers-reduced-motion: reduce) {
-  .cursor-blink {
-    animation: none;
-    opacity: 1;
+  .intro-root {
+    animation: intro-fadeout 0.4s ease 0.3s forwards;
   }
-  .fade-up {
+  .intro-piece,
+  .intro-shot,
+  .intro-orbit,
+  .intro-knob,
+  .intro-count {
     animation: none;
-    opacity: 1;
   }
+  .intro-piece,
+  .intro-count {
+    display: none;
+  }
+  .intro-shot {
+    opacity: 1;
+    transform: none;
+  }
+  @keyframes intro-fadeout {
+    to {
+      opacity: 0;
+      visibility: hidden;
+    }
+  }
+}
+
+/* The ID card lying on the surface: a soft shadow that follows the card's own rounded shape and notch. */
+.card-lift {
+  filter: drop-shadow(0 16px 20px rgba(0, 0, 0, 0.2)) drop-shadow(0 2px 4px rgba(0, 0, 0, 0.18));
+}
+:root[data-theme="dark"] .card-lift {
+  filter: drop-shadow(0 18px 24px rgba(0, 0, 0, 0.75)) drop-shadow(0 2px 5px rgba(0, 0, 0, 0.6)) drop-shadow(0 0 1px rgba(255, 255, 255, 0.18));
 }

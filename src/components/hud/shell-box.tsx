@@ -3,50 +3,33 @@
 import { useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { MenuShell } from "./menu-shell";
 
-interface ShellBoxProps {
-  children: React.ReactNode;
-  backHref: string;
-  backLabel?: string;
-  size?: "compact" | "large";
-}
-
-/** The back link sits directly above the box, width-matched to it, so it
- *  always reads as attached to the box rather than pinned to the viewport. */
+/** Page column under the site chrome, with a back link and Esc to go back. */
 export function ShellBox({
   children,
-  backHref,
-  backLabel = "BACK",
-  size = "compact",
-}: ShellBoxProps) {
+  backHref = "/",
+  backLabel = "Back",
+}: {
+  children: React.ReactNode;
+  backHref?: string;
+  backLabel?: string;
+}) {
   const router = useRouter();
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") {
-        e.preventDefault();
-        router.push(backHref);
-      }
+      if (e.key === "Escape") router.push(backHref);
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, [router, backHref]);
 
   return (
-    <div
-      className={`flex min-h-0 flex-col ${
-        size === "compact" ? "w-[min(700px,92vw)]" : "w-[min(768px,92vw)]"
-      }`}
-    >
-      <Link
-        href={backHref}
-        className="mb-3 flex w-fit shrink-0 items-center gap-2 text-xs tracking-widest text-ink-dim hover:text-accent"
-      >
-        <span className="rounded border border-line px-2 py-1">Esc</span>
-        {backLabel}
+    <div className="mx-auto w-full max-w-3xl px-5 pb-24 pt-32 sm:px-10 md:pt-32">
+      <Link href={backHref} className="text-[14.5px] text-ink-soft hover:text-ink">
+        ← {backLabel}
       </Link>
-      <MenuShell size={size}>{children}</MenuShell>
+      <div className="mt-10">{children}</div>
     </div>
   );
 }

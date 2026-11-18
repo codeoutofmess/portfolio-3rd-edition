@@ -1,73 +1,58 @@
 ---
 title: "FMKR: a record label site that reads as a company"
-summary: "Logo, brand values and website for Fat Man Kills Records, designed around who visits it, then rebuilt around a hand-drawn hero and a walking mascot."
+summary: "Fat Man Kills Records is an independent music company in Mumbai. I designed the logo and brand values, built the site, and later rebuilt the homepage around a knife animation I drew frame by frame and a mascot that walks across the top."
+outcome: "Live at fmkrecords.com. Lighthouse scores the homepage 91 for performance, 96 for accessibility and 100 for best practices and SEO."
 client: "Fat Man Kills Records"
 kind: "client"
 category: "dev"
-role: ["Logo & brand values", "Art direction", "Web design", "Motion design", "Front-end development"]
+role: ["Logo & brand values", "Art direction", "Web design", "Motion design", "Front end development"]
 year: "2026"
-duration: "Built July 2026, homepage redesigned October 2026"
+duration: "Built in July, homepage redesigned in October"
 tags: ["Next.js", "TypeScript", "Tailwind CSS", "Motion design", "Information architecture", "Accessibility"]
-coverImage: "/images/work/fmkr/cover.png"
-coverAlt: "The FMKR landing page: a hand-drawn knife animation across the screen, the blue FMKR lockup at the top with a small walking mascot, and the site links in the bottom-right corner"
+coverImage: "/images/work/fmkr/cover.webp"
+coverAlt: "The FMKR landing page: a hand drawn knife animation, the blue FMKR lockup with a small walking mascot, and the site links in the corner"
 links:
   live: "https://www.fmkrecords.com"
 featured: true
+selected: true
 order: 0.5
 ---
 
-Fat Man Kills Records is an independent music company in Mumbai, run by FMKRP LLP. I designed the logo and brand values, built the site, and in October rebuilt the homepage because the first version, though sound, looked like every other label site.
+<Media src="/images/work/fmkr/hero.mp4" caption="Scrolling the homepage." />
 
-## 1. The problem
+<Step n="01" title="The problem">
+Most label sites are a roster and a list of releases. FMKR wanted to read as a company that owns catalogue and builds brands, without turning into a corporate brochure.
+</Step>
 
-Most label sites are a roster and a list of releases. FMKR describes itself as something else: not a label that releases songs, but a company that owns catalogue and builds brands. The site had to say "company" early without becoming a corporate brochure.
+<Pair>
+  <Media src="/images/work/fmkr/cover.webp" caption="One hand drawn object, the links in the corner." />
+  <Media src="/images/work/fmkr/phone.jpg" caption="The same page on a phone." />
+</Pair>
 
-## 2. Structure it around who visits
+<Step n="02" title="Built around who visits">
+Artists, partners and people asking about rights each arrive with a different question, so the navigation answers those questions. Enquiries go to separate desks, so a demo reaches A&R and a licensing request reaches rights.
+</Step>
 
-Three kinds of people turn up, and each arrives with a question. Artists ask whether FMKR is worth sending music to. Partners ask what it can do for them. Licensors ask who to talk to about rights. So the navigation answers those questions (Artists, Releases, Services, About, Contact) instead of mirroring the label's org chart. Services sits next to the music rather than in a footer, because a partner shouldn't have to hunt for it.
+<Media src="/images/work/fmkr/statement.jpg" caption="The statement band." />
 
-Contact routes enquiries to separate desks, so a demo reaches A&R and a licensing request reaches rights. Both senders get a reply from the right person.
+<Pair>
+  <Media src="/images/work/fmkr/services.jpg" caption="Services sit next to the music, not in the footer." />
+  <Media src="/images/work/fmkr/demo.jpg" caption="Contact splits demos from rights questions." />
+</Pair>
 
-## 3. Direction for the redesign
+<Step n="03" title="The redesign">
+My first passes looked like every other site: an orb, a gradient, a floating 3D thing. So I set a few rules. One hero object, a few huge elements and the rest small, and no header bar. The object became a knife animation I drew by hand.
+</Step>
 
-My first redesign passes were generic: a floating 3D object, a glowing orb, text over a gradient. I set rules instead, each with a reason:
+<Media src="/images/work/fmkr/menu-overlay.webp" caption="The menu reopens the same stack of links over wherever you are." />
 
-- **One hero object.** A single focal point means a first-time visitor knows where to look. I tried a 3D mask, the logo and a vinyl record, and kept the one thing that looked made by a person: a knife animation I drew frame by frame.
-- **A few huge elements, the rest small.** An uncrowded hero reads in a second.
-- **No header bar.** A strip across the top reads as a separate section, so the links live in the page itself.
+<Pair>
+  <Media src="/images/work/fmkr/walk-cycle.webp" caption="The mascot's walk. I drew new legs in the logo's outline." />
+  <Media src="/images/work/fmkr/patrol-timeline.svg" caption="Each crossing lines up with three loops of the knife animation." />
+</Pair>
 
-![The landing page](/images/work/fmkr/cover.png)
+<Media src="/images/work/fmkr/releases.jpg" caption="The latest releases fill the screen, with the listen links right there." />
 
-## 4. Navigation that gets out of the way
-
-On the landing page the links are a large stack in the corner, so you don't need a menu to find them. When they scroll out of view, a Menu button appears so navigation is always one click away, never two controls at once. It reopens the same stack over wherever you are with no panel behind it, so you keep your place. The links change colour against the page (blue on paper, gold over dark) so they stay readable on every section.
-
-![The menu opened over the statement band](/images/work/fmkr/menu-overlay.png)
-
-## 5. A mascot, drawn to walk
-
-The logo's mascot walks the top of the hero, passing behind the FMKR lockup. The logo's own legs hang from two different hips, so the back foot only ever dragged. I kept the drawn head and coat and drew new legs in the same outline, both from one hip, scissoring past each other. It's all SVG and CSS.
-
-![One walk cycle in nine steps](/images/work/fmkr/walk-cycle.png)
-
-I also timed the walk to the knife animation: each crossing is three of its 8.4-second loops, so he reaches the screen edge and turns exactly as a loop ends. The page can't read an animated image's clock, so a small component starts both together and re-aligns them after scrolling away. I checked it frame by frame and measured a 0 ms offset.
-
-![The patrol timeline](/images/work/fmkr/patrol-timeline.svg)
-
-## 6. A billboard for the newest release
-
-The latest releases fill the screen: a muted preview, the details in the middle, the rest lined up to skip to. The listen links are right there because a visitor who came to hear something shouldn't have to dig. Auto-advance has a visible pause control. Video only loads when the section is on screen, and on phones, with data-saver or with reduced motion it falls back to still images.
-
-![The latest-releases billboard with stand-in footage](/images/work/fmkr/showcase.jpg)
-
-## 7. Problems found by running it
-
-- Smoothing the knife frames with an SVG filter quietly deleted the fine lines I'd drawn, so I re-rendered the animation once at 2400 px instead.
-- A statement band was rendering white on white, a blank screen on the live site, because a style read the accent colour after redefining it. I fixed it with a separate token.
-- The header flashed its old layout on refresh. The first paint is now the final layout.
-
-## Result
-
-Live at [fmkrecords.com](https://www.fmkrecords.com). Lighthouse on the redesigned homepage: **91 performance, 96 accessibility, 100 best practices, 100 SEO**, with a 0.8 s largest paint and no layout shift. The hero's weight costs Speed Index (3.6 s), and the one accessibility flag is a deliberately faint decorative word.
-
-The structure and engineering are real. The roster, releases, artist portraits and billboard footage are placeholders for now, and I've tested in Chrome only. Built with AI tools; I review, test and own everything that ships.
+<Step n="04" title="Where it stands">
+Live at [fmkrecords.com](https://www.fmkrecords.com). Lighthouse on the homepage scores 91 for performance, 96 for accessibility and 100 for both best practices and SEO. The roster, releases and footage are placeholders for now.
+</Step>

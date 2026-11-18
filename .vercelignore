@@ -1,0 +1,6 @@
+.env*
+.next
+node_modules
+.vercel/output
+# the original screen-recording GIFs are no longer used on the site (it plays the smaller MP4 versions)
+public/images/**/*.gif

@@ -18,19 +18,25 @@ export default function ResumePage() {
   const hasPreview = fileExists(PREVIEW_URL);
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center gap-6 p-6">
-      <ShellBox backHref="/menu" size="large">
+    <ShellBox>
         <div className="flex flex-wrap items-center justify-between gap-4">
-          <p className="text-xs tracking-widest text-accent">{"// RESUME"}</p>
-          {hasResume && (
+          <h1 className="text-3xl font-medium tracking-tight sm:text-5xl">Resume</h1>
+          <div className="flex flex-wrap gap-3">
             <a
-              href={site.resumeUrl}
+              href={site.resumeDevUrl}
               download
-              className="rounded border border-line px-4 py-2 text-xs tracking-widest text-accent hover:bg-white/5"
+              className="border border-ink px-4 py-2 text-[14.5px] hover:bg-ink hover:text-bg"
             >
-              DOWNLOAD ↓
+              Developer resume ↓
             </a>
-          )}
+            <a
+              href={site.resumeUxUrl}
+              download
+              className="border border-ink px-4 py-2 text-[14.5px] hover:bg-ink hover:text-bg"
+            >
+              UX resume ↓
+            </a>
+          </div>
         </div>
 
         {hasResume && hasPreview ? (
@@ -40,24 +46,23 @@ export default function ResumePage() {
               alt="Pradyumna Vishwanath's resume"
               width={1240}
               height={1754}
-              className="w-full max-w-md rounded-md border border-line"
+              className="w-full max-w-md border border-line"
               priority
             />
           </div>
         ) : (
-          <div className="mt-6 flex h-64 flex-col items-center justify-center gap-2 rounded-md border border-dashed border-line text-center">
-            <p className="text-sm text-ink-soft">
+          <div className="mt-6 flex h-64 flex-col items-center justify-center gap-2 border border-dashed border-line text-center">
+            <p className="text-base text-ink-soft">
               Resume not uploaded yet — check back soon.
             </p>
             <a
               href={`mailto:${site.email}`}
-              className="text-xs tracking-widest text-accent hover:underline"
+              className="text-[14.5px] underline"
             >
-              OR EMAIL ME FOR A COPY
+              Or email me for a copy
             </a>
           </div>
         )}
-      </ShellBox>
-    </main>
+    </ShellBox>
   );
 }

@@ -1,43 +1,51 @@
 ---
-title: "A cold-pitch redesign for a 15-year tournament archive"
-summary: "An unsolicited redesign proposal for wellingtonchess.club — a rebuilt homepage and a Python migration of 95 tournaments' worth of hand-typed results into one searchable archive, with zero results retyped by hand."
+title: "A cold pitch redesign for a 15 year tournament archive"
+summary: "An unsolicited redesign of wellingtonchess.club. I rebuilt the homepage and wrote a Python script that moved 15 years of hand typed results into one searchable archive, without retyping a single result."
+outcome: "95 tournaments and 154 crosstables moved into one searchable archive. A working demo, not yet sent to the club."
 client: "Wellington Chess Club"
 kind: "personal"
 category: "dev"
-role: ["Web design", "Front-end development", "Data migration"]
+role: ["Web design", "Front end development", "Data migration"]
 year: "2026"
 duration: "3 days"
-tags: ["Python", "Static Site", "Data Migration", "HTML/CSS"]
-coverImage: "/images/work/wellington-chess-club/cover.png"
-coverAlt: "Redesigned Wellington Chess Club homepage and tournament archive"
+tags: ["Python", "Static site", "Data migration", "HTML/CSS"]
+coverImage: "/images/work/wellington-chess-club/cover.webp"
+coverAlt: "The redesigned Wellington Chess Club homepage"
 links:
   live: "https://wellington-chess-club.vercel.app"
 featured: true
-order: 1
+selected: true
+order: 3
 ---
 
-I'd been down to a few Thursday sessions at Wellington Chess Club — good group of people, genuinely well-run club. What caught my attention wasn't the chess, it was the website: fifteen years of tournament results, 2011 through 2026, sitting in hand-typed HTML with per-page inline CSS and no way to search across any of it. So I built an alternative version, on my own time, to see what it could look like. This is that build — a cold pitch I put together, not (yet) something the club asked for or has seen.
+<Media src="/images/work/wellington-chess-club/hero.mp4" caption="Scrolling the new homepage." />
 
-## Respecting what already works
+<Step n="01" title="What I noticed">
+I'd been to a few Thursday nights at the club. The site was fast and friendly, but 15 years of results, from 2011 to 2026, sat in hand typed pages with no way to search them.
+</Step>
 
-Before touching anything, I spent time figuring out what *not* to change. The site is fast, has no tracking, the committee is named and reachable, and the club's Instagram has 117 posts of real effort behind it. None of that needed fixing. The actual gap was structural: fifteen years of results existed only as a long list of individual year pages, each hand-formatted slightly differently depending on who was maintaining the site that year.
+<Pair>
+  <Media src="/images/work/wellington-chess-club/first-time.jpg" caption="For first timers: just show up." />
+  <Media src="/images/work/wellington-chess-club/phone.jpg" caption="On a phone." />
+</Pair>
 
-## Parsing fifteen years of drift
+<Step n="02" title="Keep what works">
+No tracking, a named committee you can reach and a busy Instagram. None of that needed changing. The gap was the archive.
+</Step>
 
-The archive migration was the real work. Results had been recorded in at least four different formats over the years — round-robin score matrices, Swiss pairing lists, and a handful of legacy one-offs that didn't match either pattern. I wrote a Python script (`generate.py`) that detects which format a given page uses, parses it with format-specific logic, and validates the result before rendering it as a real HTML table.
+<Media src="/images/work/wellington-chess-club/results.jpg" caption="The latest results, pulled from the new archive." />
 
-The rule that mattered most: anything the script couldn't confidently parse got left in its original form rather than guessed at. Getting a chess result wrong — swapping a win for a loss, misreading a crosstable — isn't a cosmetic bug, it's a real record of someone's game being misreported. Ninety-five tournaments and 154 crosstables were converted this way, with zero results retyped by hand and zero guessed at.
+<Step n="03" title="Fifteen years of drift">
+Results had been typed in at least four formats. My script works out which one a page uses, parses it and checks it. Anything it can't read with confidence stays as it was, because a misread result is someone's game reported wrong. 95 tournaments and 154 crosstables came across.
+</Step>
 
-![The searchable tournament archive — 95 tournaments, 2011–2026, filterable by event, winner, and year](/images/work/wellington-chess-club/archive.png)
+<Media src="/images/work/wellington-chess-club/archive.png" caption="The searchable archive: every tournament from 2011 to 2026." />
 
-## One template instead of ninety-five
+<Pair>
+  <Media src="/images/work/wellington-chess-club/subs.jpg" caption="Subs, honestly priced." />
+  <Media src="/images/work/wellington-chess-club/clubhouse.jpg" caption="The club's Instagram, brought onto the site." />
+</Pair>
 
-The original site repeated its header and navigation on every single page, which meant any small change meant editing dozens of files. The rebuild replaces that with one shared template and one stylesheet, plus a searchable archive index that sits alongside the existing year-by-year browsing rather than replacing it. External tools the club already relies on — Vega for pairings, Lichess for game broadcasts, NZCF for federation records — were left untouched and simply linked to. They already do their job; rebuilding them wasn't the point.
-
-## Why I built the pitch this way
-
-The proposal document itself follows the same restraint as the build: every change is framed as optional, several sections are explicit about what I'd leave exactly as-is if the committee prefers, and nothing assumes the club owes me anything for unsolicited work. That's a deliberate choice — the site's redesign has to earn its case on its own, not on the strength of a sales pitch.
-
-## Where this actually stands
-
-This hasn't been sent to the club yet. It's a live, working demo — [wellington-chess-club.vercel.app](https://wellington-chess-club.vercel.app) — built to the point where I'd be comfortable sharing it, not a mockup. The honest next step is the cold outreach itself: sending the pitch, and finding out whether "here's a working alternative, free to host, no operational changes required" is a compelling enough case on its own.
+<Step n="04" title="Where it stands">
+A working demo, not a mockup. I haven't sent it to the club yet; that's the next step.
+</Step>

@@ -53,3 +53,47 @@ export function getProjectBySlug(slug: string): Project | undefined {
 export function getAllProjectSlugs(): string[] {
   return getAllProjects().map((p) => p.slug);
 }
+
+/** Short names for the home showcase list; falls back to the case title. */
+export const SHORT_NAMES: Record<string, string> = {
+  "boombapbombay": "Boom Bap Bombay",
+  "fmkr": "FMKR",
+  "fly-eire": "FLY.EIRE",
+  "wellington-chess-club": "Wellington Chess Club",
+  "first90-nz": "First90 NZ",
+  "paste-up": "Paste Up",
+  "shiftboard": "ShiftBoard",
+  "desklog": "DeskLog",
+  "consoleview": "ConsoleView",
+  "consumer-nz-ia": "Consumer NZ",
+  "candidacy-information": "Candidate Information",
+  "beatstars-design-system": "Beatstars Design System",
+};
+
+export type Discipline = "web" | "ux" | "graphic";
+
+/** Home filters, taken from each case study's roles. A project can be in several. */
+export const DISCIPLINES: Record<string, Discipline[]> = {
+  "boombapbombay": ["web", "graphic"],
+  "fmkr": ["web", "graphic"],
+  "fly-eire": ["web"],
+  "wellington-chess-club": ["web"],
+  "first90-nz": ["web", "ux"],
+  "paste-up": ["web", "graphic"],
+  "shiftboard": ["web"],
+  "desklog": ["web"],
+  "consoleview": ["web"],
+  "consumer-nz-ia": ["ux"],
+  "candidacy-information": ["ux"],
+  "beatstars-design-system": ["ux"],
+};
+
+/** Still cover shown peeking out of the folder; the first frame of the site recording when there is one. */
+export function coverFor(slug: string, still?: string) {
+  const exists = (f: string) => fs.existsSync(path.join(process.cwd(), "public", f));
+  for (const name of ["scroll", "prototype-preview"]) {
+    const first = `/images/work/${slug}/${name}-still.jpg`;
+    if (exists(first)) return first;
+  }
+  return still;
+}

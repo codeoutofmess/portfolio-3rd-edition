@@ -1,77 +1,44 @@
 ---
-title: "A C#/.NET shift-scheduling app, built to close the most common skill gap in my job search"
-summary: "A small roster-management app — JWT auth with role-based access, full CRUD, a shift-overlap validation rule, a week-based scheduling UI — built to get real, hands-on ASP.NET Core + EF Core experience for the single most common backend stack showing up in the NZ postings I couldn't yet honestly apply for."
+title: "A shift scheduling app in C# and .NET"
+summary: "A shift scheduling app in C# and ASP.NET Core with a React front end. It was the most common backend stack in the NZ jobs I was looking at, and I wanted real experience with it before saying I had it."
+cardSummary: "A C# and .NET shift scheduling app"
 client: "Personal project"
 kind: "personal"
 category: "dev"
-role: ["Back-end development", "Front-end development"]
+role: ["Back end development", "Front end development"]
 year: "2026"
-duration: "Six milestone sessions, scaffold through live deploy"
+duration: "Six milestones, scaffold to live deploy"
 tags: ["ASP.NET Core", "Entity Framework Core", "C#", "React", "TypeScript", "Docker"]
 coverImage: "/images/work/shiftboard/week-view.png"
-coverAlt: "ShiftBoard's week view showing the seeded roster"
+coverAlt: "ShiftBoard's week view showing the demo roster"
 links:
   live: "https://shiftboard-web-theta.vercel.app"
   repo: "https://github.com/codeoutofmess/ShiftBoard"
 featured: true
-order: 4
+selected: true
+order: 6
 ---
 
-ShiftBoard exists because of a gap, not a feature idea: ASP.NET Core + React was, by a wide
-margin, the most common backend pairing in the NZ roles I was scanning — Datacom, Sandfield,
-AUT, Aderant, Techspace, Marsello, Robert Half and more all posted it. Rather than claim
-familiarity on an application form on faith, I built a real shift-scheduling app with it —
-JWT auth, role-based access, full CRUD, a genuine business rule, deployed — end to end, in six
-build milestones.
+<Media src="/images/work/shiftboard/scroll.mp4" caption="Signing in and moving through the week." />
 
-## Two bugs that only showed up by running it
+<Step n="01" title="Why I built it">
+Datacom, Sandfield, AUT and others all listed ASP.NET Core with React. Rather than claim it on an application, I built something real with it, from scaffold to live deploy.
+</Step>
 
-Reading the code said everything was fine. Running it said otherwise. The week-view header was
-rendering as literal garbage text ("Aug 3 – 2026 (day: 9)") because of an `Intl.DateTimeFormat`
-options combination (`{ day, year }` with no `month`) that this particular environment handled
-oddly — a one-line fix once caught, invisible from the code alone. Separately, the shift list's
-first draft called a small C# helper method inside an EF Core `.Select()` projection to shape the
-response DTO. That compiles cleanly and looks completely normal — but EF Core can't translate an
-arbitrary method call into SQL, so it would have thrown `InvalidOperationException` the first
-time anyone actually loaded the shifts page. Both went unnoticed until the app was actually
-clicked through in a browser and hit with real requests, not just read.
+<Media src="/images/work/shiftboard/week-view.png" caption="The week view, across Wellington CBD and Lower Hutt." />
 
-## A validation rule, not just CRUD
+<Step n="02" title="One real rule">
+An employee can't be booked on two shifts that overlap. Every create and edit checks it, and a shift being edited doesn't clash with itself. Anyone signed in can see the roster, but only admins can change it.
+</Step>
 
-The one business rule that makes this more than a CRUD demo: an employee can't be double-booked
-across two shifts. That's an interval-overlap check (`start < existingEnd && end > existingStart`)
-run against every create and update, correctly excluding a shift from its own overlap check when
-it's being edited. Access control follows a simple, deliberate split too — any authenticated user
-can read the roster, but only Admins can create, edit, or delete shifts, locations, or other
-employees' records — modelled as "managers build the schedule, staff view it," not a hard
-requirement of the brief, just the design that made sense for the domain.
+<Media src="/images/work/shiftboard/new-shift-form.png" caption="Adding a shift checks the times before it reaches the API." />
 
-![ShiftBoard's week view, showing the seeded roster across Wellington CBD and Lower Hutt](/images/work/shiftboard/week-view.png)
+<Step n="03" title="Bugs I only found by running it">
+The week header showed garbage because of a date format quirk. And a query that compiled fine would have crashed the first time anyone loaded shifts, because the database can't run a C# method.
+</Step>
 
-The overlap check and the "who can do what" split both surface in the same form — adding a shift
-picks from the existing employee/location set (or creates a location inline) and validates start
-and end times before it ever reaches the API.
+<Media src="/images/work/shiftboard/architecture.svg" caption="React on Vercel, the API in Docker on Render." />
 
-![The new-shift form — employee, location, and the start/end range the overlap check runs against](/images/work/shiftboard/new-shift-form.png)
-
-## Deploying a stack that doesn't fit one host
-
-The frontend and backend don't share a home: Vercel runs Node/static/serverless workloads, not
-long-running ASP.NET Core APIs. The API is containerised (a multi-stage .NET 8 Dockerfile) and
-deployed to Render as a Blueprint (`render.yaml`), which re-syncs automatically on every push to
-`main`; the React frontend deploys separately to Vercel, pointed at the live API via an
-environment variable. The JWT signing key never touches git either way — `dotnet user-secrets`
-locally, Render's `generateValue` for the deployed key.
-
-![Deployment topology: React SPA on Vercel talking to a Dockerized ASP.NET Core API on Render, backed by SQLite](/images/work/shiftboard/architecture.svg)
-
-## What's actually built, and what isn't
-
-Auth, employee/location/shift CRUD, the overlap check, and the week-view calendar all work end
-to end against a live deploy, not a demo mode — [shiftboard-web-theta.vercel.app](https://shiftboard-web-theta.vercel.app),
-with the API's Swagger UI left open at `/swagger` since there's no real user data at risk. What's
-not built, deliberately: role-based access is role-only, not ownership-based (any Admin can edit
-any shift, there's no "staff can only edit their own" concept), and JWTs are stateless, so
-deleting an employee doesn't invalidate a token they've already been issued — it just expires
-normally. SQLite runs on Render's free-tier ephemeral disk, so the demo data resets on every
-restart — intentional, since the seed script immediately repopulates the same clean dataset.
+<Step n="04" title="Where it stands">
+Live, with a demo roster that resets whenever the server restarts. Permissions are by role only, not by who owns a shift.
+</Step>

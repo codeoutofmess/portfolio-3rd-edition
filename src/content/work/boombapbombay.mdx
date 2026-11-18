@@ -1,45 +1,57 @@
 ---
-title: "Building a 3D-driven beat store for a Mumbai hip-hop label"
-summary: "Brand identity, UI, motion, and a full-stack build for Boom Bap Bombay — a beat store with a cursor-tracked 3D revolver on the landing page and a Razorpay checkout underneath it."
+title: "A 3D beat store for a Mumbai hip hop label"
+summary: "Boom Bap Bombay is a Mumbai hip hop label and beat store run by the producer KSHAH. I designed the brand, the UI and the motion, then built the front end and a store that takes real payments and delivers real files."
+outcome: "Live at boombapbombay.com, taking real payments and delivering paid downloads."
 client: "Boom Bap Bombay"
 kind: "client"
 category: "dev"
-role: ["Brand & UI design", "Motion design", "Front-end development"]
+role: ["Brand & UI design", "Motion design", "Front end development"]
 year: "2025"
 duration: "4 months"
 tags: ["Three.js", "GSAP", "E-commerce", "Node.js"]
 coverImage: "/images/work/boombapbombay/cover.webp"
-coverAlt: "Silhouetted crime-scene illustration used across the Boom Bap Bombay site"
+coverAlt: "Silhouetted crime scene illustration used across the Boom Bap Bombay site"
 links:
   live: "https://boombapbombay.com"
 featured: true
+selected: true
 order: 0
 ---
 
-Boom Bap Bombay is a Mumbai hip-hop label and beat store run by a producer called KSHAH — dusty boom-bap drums, custom instrumentals, golden-era hip-hop filtered through Mumbai noise and pulp-crime imagery. He came to me for a website. By the end I'd designed the brand, built the front end, and wired up a store that takes real payments and delivers real files. It's live at boombapbombay.com.
+<Media src="/images/work/boombapbombay/hero.mp4" caption="Scrolling the site." />
 
-## Owning more than the front end
+<Step n="01" title="The brief">
+KSHAH came to me for a website. It had to feel like the music: dusty boom bap drums, golden era hip hop, Mumbai noise and pulp crime imagery.
+</Step>
 
-Most of what's in this portfolio is design work I handed off, or a prototype that never had to actually ship. This one was different — I did the identity, the UI, the motion design, and then wrote every line of the front end myself. There's no handoff between "here's an idea" and "customers are paying for it."
+<Pair>
+  <Media src="/images/work/boombapbombay/hero.jpg" caption="The landing page, with the revolver that follows your cursor." />
+  <Media src="/images/work/boombapbombay/phone.jpg" caption="On a phone." />
+</Pair>
 
-That changes how you design. A hover state drawn in Figma has to actually get built, and a scroll effect scripted in a moment of inspiration has to hold up on a five-year-old Android phone on patchy 4G. A fair chunk of the real work was closing that gap.
+<Step n="02" title="Designed and built by me">
+I did the identity, the UI and the motion, then built it myself. With no handoff, every hover and scroll effect had to hold up on an old Android phone on patchy 4G, not just look good in Figma.
+</Step>
 
-## The revolver
+<Media src="/images/work/boombapbombay/drop.jpg" caption="Each drop gets its own spread, with a preview and buy buttons." />
 
-The landing page centerpiece is a GLTF revolver model that tracks the cursor — aims wherever you move your mouse. Rendered in Three.js with a Meshopt-compressed model so it doesn't stall on load. It's a blunt object for a genre whose whole vocabulary is blunt, and it sets the tone in three seconds better than any line of copy could.
+<Media src="/images/work/boombapbombay/lineup.jpg" caption="The beat line up." />
 
-![The landing page: bilingual wordmark, the cursor-tracked revolver, and the latest-drops panel](/images/work/boombapbombay/hero.jpg)
+<Step n="03" title="A revolver that follows you">
+The landing page has a 3D revolver that aims wherever your cursor goes, compressed so it loads fast. Scrolling runs on GSAP with Lenis, and phones get their own simpler scroll where pinned sections would jitter.
+</Step>
 
-## Making scroll feel expensive
+<Pair>
+  <Media src="/images/work/boombapbombay/made-to-order.jpg" caption="Custom beats, made to order." />
+  <Media src="/images/work/boombapbombay/got-bars.jpg" caption="Got bars? We got beats." />
+</Pair>
 
-Under the hood it's GSAP driving ScrollTrigger and Flip, layered on Lenis for the weighted, slightly-delayed glide desktop users now expect from a site that's trying to feel premium. Getting that to also hold up on mobile took more work than the desktop version — pinned scroll sections jitter on touch devices because native scrolling runs on its own thread, out of sync with whatever's driving the animation in JS. I ended up giving mobile a normalized scroll path and, in a few places, an entirely separate build, rather than forcing one interaction model to behave on both.
+<Step n="04" title="A store you can trust">
+Cart, Razorpay checkout and paid downloads. The server checks every payment signature, works out the price itself instead of trusting the browser, and hands out download links that expire. The payment checks have unit tests.
+</Step>
 
-## A beat store that's actually a store
+<Media src="/images/work/boombapbombay/cover.webp" caption="The crime scene illustration that runs through the site." />
 
-Past the visuals, this had to function as commerce: a cart, checkout, and paid digital downloads. I built the backend in Express with Postgres and Supabase, wired to Razorpay for payment. The parts that mattered most weren't visual at all — verifying Razorpay's webhook signatures with a constant-time comparison so the check can't be timed and guessed, re-deriving the price server-side instead of trusting whatever the client sends, and handing out time-limited signed download links instead of a public file URL anyone could pass around. None of that shows up in a screenshot, but it's the difference between a store and a store that's actually safe to take money through. The signature-verification logic and the cart quantity caps both have real unit tests behind them (`payments.test.js`, `quantity.test.js`) — the parts of a checkout flow where a silent regression is expensive, not the parts where it's merely annoying.
-
-## What four months on one client taught me
-
-Shipping something you designed yourself removes the usual excuse — if a transition feels cheap or a button doesn't register on tap, there's no one else's handoff to point at. I also learned to timebox the invisible work: it would've been easy to keep hardening the payment backend indefinitely, and at some point "secure enough to actually trust with real transactions" has to be a line you draw and move past.
-
-Have a look at [boombapbombay.com](https://boombapbombay.com) — best on desktop, for the revolver.
+<Step n="05" title="Where it stands">
+Live at [boombapbombay.com](https://boombapbombay.com). Best on a desktop, for the revolver.
+</Step>
