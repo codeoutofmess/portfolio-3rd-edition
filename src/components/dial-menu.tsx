@@ -483,7 +483,7 @@ export function DialMenu({ items }: { items: WorkItem[] }) {
         </text>
       </svg>
 
-      <HomeChrome headline={!mobile || !path.length} />
+      <HomeChrome />
       {client && <CatchMe />}
       {client && aboutOpened && (
         <>

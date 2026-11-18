@@ -194,7 +194,7 @@ function Tip({ text, align = "center" }: { text: string; align?: "left" | "cente
  * The top bar: social icons, my name (refreshes the site) and the sound, theme and full screen toggles.
  * The same on every page. On pages that scroll, a soft fade in the page colour keeps it readable over content.
  */
-export function TopBar({ fade = false, headline }: { fade?: boolean; headline?: boolean }) {
+export function TopBar({ fade = false }: { fade?: boolean }) {
   const theme = useTheme();
   const soundOn = useSound();
   const fs = useFullscreen();
@@ -219,15 +219,6 @@ export function TopBar({ fade = false, headline }: { fade?: boolean; headline?: 
           <Tip text="Refresh" />
         </button>
       </h1>
-      {/* Below the catch-me score (52px down), so the two never overlap. */}
-      {headline !== undefined && (
-        <p
-          aria-hidden={!headline}
-          className={`absolute inset-x-0 top-[90px] text-center text-[15px] font-normal text-ink transition-opacity duration-300 sm:top-[78px] sm:text-[17px] ${headline ? "opacity-100" : "opacity-0"}`}
-        >
-          <TypedText text="I design and build websites end to end." delay={650} />
-        </p>
-      )}
 
       <div className={`absolute left-5 top-4 flex gap-2 ${iconFade}`}>
         {SOCIALS.map((s) => (
@@ -335,11 +326,11 @@ export function Available({ className = "" }: { className?: string }) {
   );
 }
 
-/** Home page chrome: the top bar (with the headline when `headline` is on) plus the edition and availability labels along the bottom. */
-export function HomeChrome({ headline = true }: { headline?: boolean }) {
+/** Home page chrome: the top bar plus the edition and availability labels along the bottom. */
+export function HomeChrome() {
   return (
     <>
-      <TopBar headline={headline} />
+      <TopBar />
       <div className="pointer-events-none fixed inset-0 z-[15] text-[13px] leading-snug font-medium">
       <div className="absolute inset-x-0 bottom-11 text-center sm:bottom-16 lg:bottom-4">
         <p className="text-[18px] font-normal"><TypedText text={`Portfolio — ${site.edition.toLowerCase().replace(/\b[a-z]/g, (c) => c.toUpperCase())}`} delay={550} /></p>
