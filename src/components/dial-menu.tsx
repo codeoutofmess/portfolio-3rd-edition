@@ -56,7 +56,6 @@ const CONFIG = {
   dot: 9, // dot radius
   labelGap: 16, // dot edge to label baseline, clear of the hover ring
   orbit: 4, // degrees per second; outer ring turns the other way
-  orbitFor: 3000, // ms the dial keeps turning after the intro before it eases to a stop (all motion is over within 5s)
   dead: 50, // knob must leave this radius before anything is hovered
   subZone: 245, // past this radius (with Work open) the outer ring is hovered
   mainSpread: 35, // degrees either side of a dot that count as hovering it
@@ -127,8 +126,8 @@ export function DialMenu({ items }: { items: WorkItem[] }) {
   const dragging = useRef(false);
   const onUpRef = useRef(() => {});
   const orbit = useRef({ main: 0, sub: 0, subBase: -90 });
-  // Anything that holds the dial still: the pointer over it, or keyboard focus in the menu.
-  const held = useRef({ pointer: false, keys: false });
+  // The pointer over the dial holds it still.
+  const held = useRef({ pointer: false });
   const nodes = useRef<Record<string, { g: SVGGElement | null; label: SVGTextElement | null; tp: SVGTextPathElement | null }>>({});
   const workOpen = path[0] === "work";
   const leaf = find(path.at(-1));
@@ -160,21 +159,18 @@ export function DialMenu({ items }: { items: WorkItem[] }) {
   const angleOf = (o: Option) =>
     MAIN.includes(o) ? o.angle + orbit.current.main : orbit.current.subBase + o.angle + orbit.current.sub;
 
-  // Orbit: written straight to the DOM each frame, React only renders the start positions. The dial turns for a few
-  // seconds after the intro, then stops for good, so the labels are easy to hit; it's held still while in use.
+  // Orbit: written straight to the DOM each frame, React only renders the start positions. The dial keeps turning, but
+  // holds still while the pointer is over it or it's being held, so the labels are easy to hit.
   useEffect(() => {
     const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
     let speed = introRef.current ? 0 : 1; // the opening loader holds the orbit still until it is done
     let last = performance.now();
-    let introEnd: number | undefined;
     let raf = 0;
     const frame = (now: number) => {
       const dt = Math.min(now - last, 50) / 1000;
       last = now;
-      if (!introRef.current) introEnd ??= now;
-      const done = introEnd === undefined || now - introEnd > CONFIG.orbitFor;
-      const inUse = dragging.current || held.current.pointer || held.current.keys;
-      const target = reduce || done || inUse ? 0 : 1;
+      const inUse = dragging.current || held.current.pointer;
+      const target = reduce || introRef.current || inUse ? 0 : 1;
       speed += (target - speed) * (1 - Math.exp(-dt * 4));
       if (inUse) speed = 0; // in use: hold still at once
       if (target === 0 && speed < 0.002) speed = 0; // come to a true stop rather than creeping forever
@@ -397,10 +393,6 @@ export function DialMenu({ items }: { items: WorkItem[] }) {
       {/* Shown as its own solid bar over the top icons while it has focus, so nothing sits under it. */}
       <nav
         aria-label="Main menu"
-        onFocus={() => (held.current.keys = true)}
-        onBlur={(e) => {
-          if (!e.currentTarget.contains(e.relatedTarget)) held.current.keys = false;
-        }}
         className="sr-only focus-within:not-sr-only focus-within:fixed focus-within:inset-x-0 focus-within:top-0 focus-within:z-[70] focus-within:flex focus-within:flex-wrap focus-within:gap-1 focus-within:border-b focus-within:border-line focus-within:bg-bg focus-within:px-4 focus-within:py-4 focus-within:text-[15px] focus-within:font-medium"
       >
         {MAIN.map((o) =>
