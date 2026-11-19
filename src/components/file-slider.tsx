@@ -9,8 +9,8 @@ const NAME_BOTTOM = 88;
 /** The least room kept between the row and the name above it, and between the row and the dial below it. */
 const MIN_GAP = 18;
 /** Where the dial's top labels sit above its centre, as a share of the dial's width (with the Work ring showing, and
- * without), plus the labels' own height in px. Keep in step with r1Phone, r2 and the phone label size in dial-menu.tsx. */
-const LABEL_TOP = { outer: 0.345, inner: 0.23 };
+ * without), plus the labels' own height in px. Keep in step with r1Phone, r2Phone and the phone label size in dial-menu.tsx. */
+const LABEL_TOP = { outer: 0.382, inner: 0.242 };
 const LABEL_PX = 13;
 
 /**

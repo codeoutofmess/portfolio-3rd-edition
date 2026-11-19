@@ -15,7 +15,7 @@
 }
 @media (max-width: 767.98px) {
   :root {
-    --dial: min(82vw, 72svh, 600px);
+    --dial: min(72vw, 72svh, 600px);
     --ring: 1.2059; /* 205 / 170 */
   }
 }

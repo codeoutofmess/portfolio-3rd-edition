@@ -16,7 +16,7 @@ export function useMobile() {
 }
 
 /** The dial's width: a little smaller on phones, so the row of files above it has room. Keep in step with --dial in globals.css. */
-export const dialWidth = (W: number, H: number) => Math.min(W * (W < 768 ? 0.82 : 0.94), H * 0.72, 600);
+export const dialWidth = (W: number, H: number) => Math.min(W * (W < 768 ? 0.72 : 0.94), H * 0.72, 600);
 
 /** The window's width and height, kept up to date. 0 x 0 on the server. */
 export function useViewport() {

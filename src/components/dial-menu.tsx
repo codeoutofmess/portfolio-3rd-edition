@@ -51,13 +51,14 @@ const SUB: Option[] = [
 const CONFIG = {
   r1: 170, // menu ring
   r1Phone: 205, // a wider menu ring on phones, so it's easier to see and tap (keep --ring in globals.css in step)
-  labelPhone: 12.5, // label height on phones, in screen px whatever the dial's size
+  labelPhone: 10, // label height on phones, in screen px whatever the dial's size
   r2: 320, // work ring
+  r2Phone: 345, // a little further out on phones, for more room between the two rings (keep LABEL_TOP in file-slider.tsx in step)
   dot: 9, // dot radius
   labelGap: 16, // dot edge to label baseline, clear of the hover ring
+  labelGapPhone: 28, // more on phones, where the dial is smaller (keep LABEL_TOP in file-slider.tsx in step)
   orbit: 4, // degrees per second; outer ring turns the other way
   dead: 50, // knob must leave this radius before anything is hovered
-  subZone: 245, // past this radius (with Work open) the outer ring is hovered
   mainSpread: 35, // degrees either side of a dot that count as hovering it
   subSpread: 18,
   folderExit: 650, // ms for the Work folders to fly into the dial before Contact or About opens
@@ -75,8 +76,8 @@ const find = (id?: string) => [...MAIN, ...SUB].find((o) => o.id === id);
 
 /** Circle paths for curved labels: clockwise from the bottom (upright on the top half)
  * and counter-clockwise from the top (upright on the bottom half). */
-const ringPaths = (ring: string, r: number) => {
-  const R = r + CONFIG.dot + CONFIG.labelGap;
+const ringPaths = (ring: string, r: number, gap: number) => {
+  const R = r + CONFIG.dot + gap;
   return [
     <path key="cw" id={`${ring}-cw`} d={`M0 ${R}A${R} ${R} 0 1 1 0 ${-R}A${R} ${R} 0 1 1 0 ${R}`} />,
     <path key="ccw" id={`${ring}-ccw`} d={`M0 ${-R}A${R} ${R} 0 1 0 0 ${R}A${R} ${R} 0 1 0 0 ${-R}`} />,
@@ -106,6 +107,10 @@ export function DialMenu({ items }: { items: WorkItem[] }) {
   const r1 = mobile ? CONFIG.r1Phone : CONFIG.r1;
   const r1Ref = useRef(r1);
   r1Ref.current = r1;
+  const r2 = mobile ? CONFIG.r2Phone : CONFIG.r2;
+  const r2Ref = useRef(r2);
+  r2Ref.current = r2;
+  const labelGap = mobile ? CONFIG.labelGapPhone : CONFIG.labelGap;
   // Phone labels are sized in screen px: the dial's units shrink with the dial.
   const labelUnits = mobile && W ? (CONFIG.labelPhone * 1000) / dialWidth(W, H) : undefined;
   // While the opening loader plays, the real dial waits at its starting angle, so the hand-off from the loader's balls is seamless.
@@ -181,7 +186,7 @@ export function DialMenu({ items }: { items: WorkItem[] }) {
         if (!n?.g || !n.label || !n.tp) continue;
         const main = MAIN.includes(o);
         const a = angleOf(o);
-        const [x, y] = polar(main ? r1Ref.current : CONFIG.r2, a);
+        const [x, y] = polar(main ? r1Ref.current : r2Ref.current, a);
         n.g.style.transform = `translate(${x}px, ${y}px)`;
         const l = labelAt(main ? "r1" : "r2", a);
         if (n.tp.getAttribute("href") !== l.href) {
@@ -292,13 +297,13 @@ export function DialMenu({ items }: { items: WorkItem[] }) {
     const d = Math.hypot(x, y);
     const a = (Math.atan2(y, x) * 180) / Math.PI;
 
-    const limit = workOpen ? CONFIG.r2 : r1Ref.current - 16;
+    const limit = workOpen ? r2Ref.current : r1Ref.current - 16;
     const k = d > limit ? (limit + (d - limit) * CONFIG.rubber) / d : 1;
     setKnob({ x: x * k, y: y * k });
 
     let h: string | undefined;
     // Out on the Work ring only a Work item counts, unless the knob is pointed at a menu item instead.
-    if (workOpen && d > CONFIG.subZone) h = nearest(SUB, a, CONFIG.subSpread) ?? nearest(MAIN, a, CONFIG.mainSpread);
+    if (workOpen && d > (r1Ref.current + r2Ref.current) / 2) h = nearest(SUB, a, CONFIG.subSpread) ?? nearest(MAIN, a, CONFIG.mainSpread);
     else if (d > CONFIG.dead) h = nearest(MAIN, a, CONFIG.mainSpread);
     if (h !== hover || Math.hypot(x - anchor.current.x, y - anchor.current.y) > CONFIG.jitter) {
       anchor.current = { x, y };
@@ -321,7 +326,7 @@ export function DialMenu({ items }: { items: WorkItem[] }) {
       const reach = 24 * (1000 / svgRef.current!.getBoundingClientRect().width); // 24px, in dial units
       let best: { id: string; d: number } | null = null;
       for (const o of [...MAIN, ...(workOpen ? SUB : [])]) {
-        const [px, py] = polar(MAIN.includes(o) ? r1Ref.current : CONFIG.r2, angleOf(o));
+        const [px, py] = polar(MAIN.includes(o) ? r1Ref.current : r2Ref.current, angleOf(o));
         const d = Math.hypot(x - px, y - py);
         if (d <= reach && (!best || d < best.d)) best = { id: o.id, d };
       }
@@ -351,7 +356,7 @@ export function DialMenu({ items }: { items: WorkItem[] }) {
   const renderDot = (o: Option, ring: "r1" | "r2", startAngle: number, size: string) => {
     const on = path.includes(o.id);
     const lit = on || hover === o.id;
-    const [x, y] = polar(ring === "r1" ? r1 : CONFIG.r2, startAngle);
+    const [x, y] = polar(ring === "r1" ? r1 : r2, startAngle);
     const l = labelAt(ring, startAngle);
     return (
       <g key={o.id}>
@@ -421,8 +426,8 @@ export function DialMenu({ items }: { items: WorkItem[] }) {
         className="pointer-events-none relative z-[40] w-[var(--dial)] select-none touch-none"
       >
         <defs>
-          {ringPaths("r1", r1)}
-          {ringPaths("r2", CONFIG.r2)}
+          {ringPaths("r1", r1, labelGap)}
+          {ringPaths("r2", r2, labelGap)}
         </defs>
         {/* No drawn ring: the four dots are enough to read as a circle round the knob. */}
         {MAIN.map((m) => renderDot(m, "r1", m.angle, "text-[15px] max-sm:text-[24px]"))}
@@ -452,7 +457,7 @@ export function DialMenu({ items }: { items: WorkItem[] }) {
         {/* Grab anywhere inside the menu ring */}
         <circle
           data-dial-grab
-          r={mobile ? (workOpen ? CONFIG.r2 + 40 : r1 + 30) : r1}
+          r={mobile ? (workOpen ? r2 + 40 : r1 + 30) : r1}
           className={`pointer-events-auto fill-transparent ${drag ? "cursor-grabbing" : "cursor-grab"}`}
           onPointerDown={onDown}
           onPointerEnter={() => (held.current.pointer = true)}
