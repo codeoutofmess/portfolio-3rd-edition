@@ -4,8 +4,8 @@ import { useEffect, useState } from "react";
 import { ChessBoard } from "@/components/chess-board";
 import { PanelWindow, usePanelLayout } from "@/components/panel-window";
 
-const FAST_MS = 2_000; // while I'm playing, so moves land within a couple of seconds
-const SLOW_MS = 20_000; // otherwise, just to notice a game starting
+const FAST_MS = 1_000; // while I'm playing, so moves land within about a second
+const SLOW_MS = 5_000; // otherwise, to notice a game starting within a few seconds
 
 type Game = { playing: boolean; color?: "white" | "black"; start?: string; moves?: string[] };
 

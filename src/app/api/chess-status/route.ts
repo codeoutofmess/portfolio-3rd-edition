@@ -120,13 +120,19 @@ function withBoard(game: Game, board: string, color: Game["color"], now: number)
 const noStore = { "Cache-Control": "no-store, max-age=0" };
 const reply = (body: object, status = 200) => Response.json(body, { status, headers: noStore });
 
+// Browsers never keep the answer, but Vercel's servers share one between all visitors for up to a second (and keep
+// handing it out for a moment while they fetch the next). However many people are watching, this code and the
+// database get about one request a second per region.
+const shared = { ...noStore, "Vercel-CDN-Cache-Control": "max-age=1, stale-while-revalidate=2" };
+const answer = (body: object) => Response.json(body, { headers: shared });
+
 export async function GET() {
   try {
     const game = await read();
     const playing = Date.now() < game.until;
-    return reply(playing ? { playing, color: game.color, start: game.start, moves: game.moves } : { playing: false });
+    return answer(playing ? { playing, color: game.color, start: game.start, moves: game.moves } : { playing: false });
   } catch {
-    return reply({ playing: false });
+    return reply({ playing: false }); // a failure isn't shared: the next visitor tries again
   }
 }
 
