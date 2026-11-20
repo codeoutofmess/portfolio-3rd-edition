@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
+import { ChessLive } from "@/components/chess-live";
 import { TypedText } from "@/components/typed-text";
 import { useIntroPhase } from "@/lib/intro";
 import { sound, useSound } from "@/lib/sound";
@@ -326,8 +327,9 @@ export function Available({ className = "" }: { className?: string }) {
   );
 }
 
-/** Home page chrome: the top bar plus the edition and availability labels along the bottom. */
-export function HomeChrome() {
+/** Home page chrome: the top bar plus the edition and availability labels along the bottom, and my live chess game
+ * while I'm playing (on the landing view only). */
+export function HomeChrome({ landing = false }: { landing?: boolean }) {
   return (
     <>
       <TopBar />
@@ -342,6 +344,8 @@ export function HomeChrome() {
       <Available className="absolute inset-x-0 bottom-4 sm:inset-x-auto sm:right-5" />
 
       </div>
+
+      <ChessLive show={landing} />
     </>
   );
 }

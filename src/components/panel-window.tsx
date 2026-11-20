@@ -14,6 +14,7 @@ export function useReveal(open: boolean) {
 }
 
 const MIN = { w: 320, h: 240 };
+const SPOT_MIN = 160;
 
 /**
  * Where a window opens from: the file that was clicked (its screen box) and two random numbers between 0 and 1 for the
@@ -73,6 +74,7 @@ export function PanelWindow({
   perch,
   below = 0,
   maxWidth,
+  spot,
   onClose,
   title,
   label,
@@ -99,6 +101,10 @@ export function PanelWindow({
   below?: number;
   /** Widest the centred pop-up gets, so it doesn't stretch across a tablet or laptop. */
   maxWidth?: number;
+  /** A spot of its own (the live chess board): opens there at this width, with its height following its content.
+   * Keeps where it was dragged and how wide it was made when it closes and opens again; resizes from the bottom right
+   * (width only); no expand button. */
+  spot?: { left: number; top: number; width: number };
   onClose: () => void;
   title: string;
   label: string;
@@ -118,7 +124,7 @@ export function PanelWindow({
   // Each time it opens afresh it starts at normal size.
   if (wasOpen !== open) {
     setWasOpen(open);
-    if (open) {
+    if (open && !spot) {
       setMinimised(false);
       setExpanded(false);
       setDims(null);
@@ -131,7 +137,8 @@ export function PanelWindow({
   const inset = slot === undefined ? 0 : 40 + slot * 20;
   const down = slot === undefined ? 0 : 20 + slot * 28;
   let box: React.CSSProperties;
-  if (expanded) box = { left: 24, right: 24, top: 72, bottom: 72 };
+  if (spot) box = { left: spot.left, top: spot.top, width: dims?.w ?? spot.width, translate: `${moved.x}px ${moved.y}px` };
+  else if (expanded) box = { left: 24, right: 24, top: 72, bottom: 72 };
   else if (anchor && beside) box = { ...nearFile(anchor, W, H), ...(dims ? { width: dims.w, height: minimised ? undefined : dims.h, maxHeight: undefined } : {}), translate: `${moved.x}px ${moved.y}px` };
   else if (!beside && modal) box = { left: 16, right: 16, top: "50%", maxHeight: H * 0.74, maxWidth, marginInline: "auto", translate: `${moved.x}px calc(-50% + ${moved.y}px)` };
   else if (!beside) box = { left: 16, right: 16, top: H / 2 + dial + 16, bottom: minimised ? undefined : tall ? 10 : 56, translate: `${moved.x}px ${moved.y}px` };
@@ -164,7 +171,7 @@ export function PanelWindow({
     const handle = e.currentTarget;
     handle.setPointerCapture(e.pointerId);
     handle.onpointermove = (m) =>
-      setDims({
+      setDims(spot ? { w: Math.min(W - 48, Math.max(SPOT_MIN, start.w + (m.clientX - start.x))), h: 0 } : {
         w: Math.min(W - 48, Math.max(MIN.w, start.w - (m.clientX - start.x))),
         h: Math.min(H - 120, Math.max(MIN.h, start.h + (m.clientY - start.y))),
       });
@@ -193,7 +200,7 @@ export function PanelWindow({
         shown ? "scale-100 opacity-100" : "pointer-events-none scale-90 opacity-0 blur-[2px]"
       }`}
       onPointerDown={onFocus}
-      style={{ ...box, zIndex: popup ? 60 + z : z, transformOrigin: beside ? "left center" : popup ? "center center" : "center top", transitionDelay: shown ? `${delay}ms` : "0ms" }}
+      style={{ ...box, zIndex: popup ? 60 + z : z, transformOrigin: spot || popup ? "center center" : beside ? "left center" : "center top", transitionDelay: shown ? `${delay}ms` : "0ms" }}
     >
       {!expanded && perch}
       <div
@@ -225,7 +232,7 @@ export function PanelWindow({
               type="button"
               aria-label={expanded ? "Shrink" : "Expand"}
               title={expanded ? "Shrink" : "Expand"}
-              className={`${dotGreen} ${popup ? "hidden" : ""}`}
+              className={`${dotGreen} ${popup || spot ? "hidden" : ""}`}
               onClick={() => {
                 setExpanded((x) => !x);
                 setMinimised(false);
@@ -236,7 +243,7 @@ export function PanelWindow({
               </svg>
             </button>
           </span>
-          <span className="flex-1 select-none text-center text-[13px] text-ink-soft font-medium">{title}</span>
+          <span className="min-w-0 flex-1 select-none truncate text-center text-[13px] text-ink-soft font-medium">{title}</span>
           {popup ? (
             <button type="button" aria-label={`Close ${title}`} onClick={onClose} className="-my-2 -mr-3 grid h-11 w-11 place-items-center text-ink">
               <svg viewBox="0 0 24 24" className="h-6 w-6 fill-none stroke-current [stroke-linecap:round]" strokeWidth={1.6} aria-hidden>
@@ -255,13 +262,13 @@ export function PanelWindow({
           <div className="flex min-h-0 flex-col overflow-hidden">{children}</div>
         </div>
 
-        {beside && !expanded && !minimised && (
+        {(beside || spot) && !expanded && !minimised && (
           <button
             type="button"
             aria-label="Resize window"
             title="Drag to resize"
             onPointerDown={startResize}
-            className="absolute bottom-0 left-0 h-4 w-4 cursor-nesw-resize touch-none text-ink-dim"
+            className={`absolute bottom-0 h-4 w-4 touch-none text-ink-dim ${spot ? "right-0 -scale-x-100 cursor-nwse-resize" : "left-0 cursor-nesw-resize"}`}
           >
             <svg viewBox="0 0 16 16" className="h-full w-full fill-none stroke-current" strokeWidth={1}>
               <path d="M1 7 9 15M1 11l4 4" />

@@ -10,6 +10,15 @@
   --folder-back: #c4c4be;
   --folder-front: #e6e6e1;
   --dial: min(94vw, 72svh, 600px); /* the dial's width; keep in step with dialWidth() in use-mobile.ts */
+  /* Live chess piece shading, left edge to right edge (see chess-pieces.tsx). White is greyed in light mode. */
+  --pw-0: #8f8f89;
+  --pw-1: #c4c4be;
+  --pw-2: #b6b6b0;
+  --pw-3: #74746e;
+  --pb-0: #3c3c39;
+  --pb-1: #121211;
+  --pb-2: #2e2e2b;
+  --pb-3: #020202;
   --ring: 1; /* how much bigger the menu ring is than on desktop; keep in step with CONFIG.r1Phone in dial-menu.tsx */
   color-scheme: light;
 }
@@ -29,6 +38,14 @@
   --color-line: rgba(241, 241, 238, 0.16);
   --folder-back: #3b3b38;
   --folder-front: #4d4d49;
+  --pw-0: #c9c9c3;
+  --pw-1: #ffffff;
+  --pw-2: #f1f1ed;
+  --pw-3: #a9a9a2;
+  --pb-0: #77776f;
+  --pb-1: #55554f;
+  --pb-2: #65655f;
+  --pb-3: #3a3a36;
   color-scheme: dark;
 }
 
