@@ -19,6 +19,7 @@ function replay(moves: string[], start?: string) {
   for (const row of chess.board()) for (const p of row) if (p) at.set(p.square, { id: p.square, type: p.type, color: p.color, square: p.square });
 
   let last: { from: string; to: string } | undefined;
+  let taken: Placed | undefined; // the piece the last move captured, shown fading away
   for (const san of moves) {
     let m;
     try {
@@ -27,6 +28,7 @@ function replay(moves: string[], start?: string) {
       break; // the server only keeps legal games, but stop cleanly if one slips through
     }
     const take = m.flags.includes("e") ? m.to[0] + m.from[1] : m.to; // en passant takes the pawn beside, not in front
+    taken = m.captured ? at.get(take) : undefined;
     if (m.captured) at.delete(take);
     const piece = at.get(m.from)!;
     at.delete(m.from);
@@ -41,7 +43,9 @@ function replay(moves: string[], start?: string) {
     }
     last = { from: m.from, to: m.to };
   }
-  return { pieces: [...at.values()], last, turn: chess.turn(), check: chess.inCheck(), over: chess.isGameOver(), chess };
+  // A fixed order (by id): moving a piece's element around the page would cancel its slide.
+  const pieces = [...at.values()].sort((a, b) => a.id.localeCompare(b.id));
+  return { pieces, last, taken, turn: chess.turn(), check: chess.inCheck(), over: chess.isGameOver(), chess };
 }
 
 const FILES = "abcdefgh";
@@ -52,7 +56,7 @@ const CHECK = "color-mix(in srgb, var(--color-ink) 26%, transparent)";
 
 /** A chess board with our pieces, seen from `side`'s end, highlighting the last move. */
 export function ChessBoard({ moves, start, side = "white", className = "" }: { moves: string[]; start?: string; side?: "white" | "black"; className?: string }) {
-  const { pieces, last, check, turn, chess } = useMemo(() => replay(moves, start), [moves, start]);
+  const { pieces, last, taken, check, turn, chess } = useMemo(() => replay(moves, start), [moves, start]);
   const xy = (sq: string) => {
     const f = FILES.indexOf(sq[0]);
     const r = Number(sq[1]);
@@ -79,12 +83,26 @@ export function ChessBoard({ moves, start, side = "white", className = "" }: { m
           return <rect x={x} y={y} width="1" height="1" style={{ fill: CHECK }} />;
         })()}
       </svg>
+      {taken && (() => {
+        const [x, y] = xy(taken.square);
+        // Knocked off as the capturing piece arrives.
+        return (
+          <div
+            key={`taken-${taken.id}`}
+            className="absolute left-0 top-0 h-[12.5%] w-[12.5%] animate-[chess-taken_0.35s_ease-in_0.3s_forwards] motion-reduce:hidden"
+            style={{ transform: `translate(${x * 100}%, ${y * 100}%)` }}
+          >
+            <Piece type={taken.type} color={taken.color} />
+          </div>
+        );
+      })()}
       {pieces.map((p) => {
         const [x, y] = xy(p.square);
         return (
           <div
             key={p.id}
-            className="absolute left-0 top-0 h-[12.5%] w-[12.5%] transition-transform duration-300 ease-out motion-reduce:transition-none"
+            // Eases in and out: a gentle start and a soft landing; the piece that just moved travels above the others.
+            className={`absolute left-0 top-0 h-[12.5%] w-[12.5%] transition-transform duration-[560ms] ease-[cubic-bezier(0.45,0,0.2,1)] will-change-transform motion-reduce:transition-none ${p.square === last?.to ? "z-10" : ""}`}
             style={{ transform: `translate(${x * 100}%, ${y * 100}%)` }}
           >
             <Piece type={p.type} color={p.color} />
