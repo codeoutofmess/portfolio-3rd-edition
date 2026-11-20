@@ -63,12 +63,12 @@ export function ChessLive({ show }: { show: boolean }) {
 function ChessWindow({ game, open, onClose }: { game: Game; open: boolean; onClose: () => void }) {
   const { W, H, dial } = usePanelLayout();
   const [nudge] = useState(() => ({ x: (Math.random() - 0.5) * 48, y: (Math.random() - 0.3) * 70 }));
-  const BAR = 41; // the title bar's height
+  const BAR = 41 + 2 * 18 + 12; // the title bar's height, plus the two player names
 
   const room = W / 2 - dial; // from the screen's left edge to the menu's left edge
   let spot;
-  if (room - 80 >= 200) {
-    const width = Math.min(300, room - 80);
+  if (room - 60 >= 160) {
+    const width = Math.min(300, room - 60);
     spot = {
       left: Math.round((room - width) / 2 + nudge.x),
       top: Math.round(Math.max(72, Math.min(H - width - BAR - 72, H / 2 - (width + BAR) / 2 + nudge.y))),
@@ -77,19 +77,37 @@ function ChessWindow({ game, open, onClose }: { game: Game; open: boolean; onClo
   } else {
     const top = H / 2 + dial + 12;
     const footer = W >= 640 ? 132 : 112; // the edition and availability labels along the bottom
-    const width = Math.round(Math.max(96, Math.min(240, H - top - footer - BAR)));
+    const width = Math.round(Math.max(150, Math.min(240, H - top - footer - BAR)));
     spot = { left: Math.round((W - width) / 2 + nudge.x / 4), top: Math.round(top), width };
   }
 
   const moves = game.moves ?? [];
+  const mine = game.color ?? "white"; // my pieces are at the bottom
   // A game picked up halfway has no move count from the start, so it just says it's live.
   const status = game.start ? "Live" : moves.length ? `Move ${Math.ceil(moves.length / 2)}` : "Starting";
-  const title = status === "Live" ? "Live game" : spot.width < 240 ? status : `Live game · ${status}`; // small windows: just the move
+  // Narrower windows have less room in the title bar: "Live game · Move 17", then "Move 17", then just "Live".
+  const title = spot.width < 190 ? "Live" : status === "Live" ? "Live game" : spot.width < 240 ? status : `Live game · ${status}`;
   return (
     <PanelWindow open={open} spot={spot} z={20} onClose={onClose} title={title} label="My live chess game">
-      <div className="p-2">
-        <ChessBoard moves={moves} start={game.start} side={game.color} />
+      <div className="p-1.5">
+        <Player name="Probably a genius" color={mine === "white" ? "black" : "white"} />
+        <ChessBoard moves={moves} start={game.start} side={mine} />
+        <Player name="Prad" color={mine} />
       </div>
     </PanelWindow>
+  );
+}
+
+/** A player's name beside a small chip of the colour they're playing: my opponent above the board, me below. */
+function Player({ name, color }: { name: string; color: "white" | "black" }) {
+  return (
+    <p className="flex h-[18px] items-center gap-1.5 truncate px-0.5 text-[12px] leading-none text-ink-soft">
+      <span
+        aria-hidden
+        className={`h-2 w-2 shrink-0 rounded-full border border-ink-dim ${color === "white" ? "bg-[#f4f4f1]" : "bg-[#121211]"}`}
+      />
+      <span className="truncate">{name}</span>
+      <span className="sr-only">, playing {color}</span>
+    </p>
   );
 }
