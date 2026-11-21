@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { Note } from "@/content/notes";
 import { FileSlider, type Slide } from "@/components/file-slider";
-import { ImageTile, PageArt } from "@/components/page-art";
+import { ImageTile, PageArt, VideoTile } from "@/components/page-art";
 import { dialWidth, useMobile } from "@/lib/use-mobile";
 import { grid, type KeepOut } from "@/components/work-scatter";
 
@@ -25,6 +25,8 @@ const CLUSTER = {
     [-1.95, -0.45],
     [0.25, 0.85],
     [2.3, -0.5],
+    [-0.35, -1.85], // chess-demo.mov
+    [1.45, -1.75], // chess-demo.txt
   ],
 } as const;
 
@@ -69,9 +71,9 @@ export function NotesScatter(props: Props) {
   return mobile ? <NotesSlider {...props} /> : <NotesDesktop {...props} />;
 }
 
-/** A phone: one row, ID.png first, one tap opens a file. */
+/** A phone: one row, the picture and video files first, one tap opens a file. */
 function NotesSlider({ notes, open, selectedId, openIds, onSelect, onOpen }: Props) {
-  const ordered = [...notes.filter((n) => n.image), ...notes.filter((n) => !n.image)];
+  const ordered = [...notes.filter((n) => n.image || n.video), ...notes.filter((n) => !n.image && !n.video)];
   const slides: Slide[] = ordered.map((n) => ({
     key: n.id,
     label: n.file,
@@ -81,6 +83,10 @@ function NotesSlider({ notes, open, selectedId, openIds, onSelect, onOpen }: Pro
       n.image ? (
         <span className="flex items-center justify-center" style={{ width: w, height: w * 0.78 }}>
           <ImageTile src={n.image.thumb} w={w} strong={openIds.includes(n.id)} />
+        </span>
+      ) : n.video ? (
+        <span className="mx-auto flex items-center justify-center" style={{ width: w * 0.66, height: w * 0.78 }}>
+          <VideoTile src={n.video.thumb} h={w * 0.78} strong={openIds.includes(n.id)} />
         </span>
       ) : (
         <span className="relative mx-auto block" style={{ width: w * 0.66, height: w * 0.78 }}>
@@ -273,7 +279,13 @@ function NotesDesktop({ notes, open, delay = 0, selectedId, openIds, onSelect, o
               className={`relative mx-auto flex origin-bottom items-center justify-center transition-transform duration-300 ${on ? "[transform:perspective(260px)_rotateX(-14deg)]" : ""}`}
               style={{ width: n.image ? w : w * 0.66, height: w * 0.78 }}
             >
-              {n.image ? <ImageTile src={n.image.thumb} w={w} strong={selected || isOpen} /> : <PageArt strong={selected || isOpen} label="txt" />}
+              {n.image ? (
+                <ImageTile src={n.image.thumb} w={w} strong={selected || isOpen} />
+              ) : n.video ? (
+                <VideoTile src={n.video.thumb} h={w * 0.78} strong={selected || isOpen} />
+              ) : (
+                <PageArt strong={selected || isOpen} label="txt" />
+              )}
             </span>
             {/* The whole name, centred under the file, however long it is */}
             <span

@@ -28,7 +28,7 @@ The app isn't on the Play Store, so Android will ask you to confirm a few times.
 1. Open **Chess Relay**.
 2. Leave the **Website address** as it is (`https://www.pradyumna-design.com/api/chess-status`).
 3. Type your password into **Password** and tap **Save**.
-4. Tap **Send a test move**. Under "What the website last said" you should see `200 {"ok":true}`. The home page will then show a board with one move (e4) for about 2 minutes.
+4. Tap **Send a test move**. Under "What the website last said" you should see `200 {"ok":true}`. The home page will then show a board with one move (e4) for about 10 seconds.
    - `401` means the password doesn't match the one on Vercel.
    - `404` means the website hasn't been deployed with the chess feature yet.
 
@@ -55,7 +55,7 @@ The Chess Relay app has an **Open Accessibility settings** button that takes you
 1. On your computer, open https://www.pradyumna-design.com.
 2. Start a game in the Chess.com app and play a few moves.
 3. Within a few seconds of each move, the board on the website updates.
-4. When you leave the Chess.com app, the board stays for 2 minutes, then goes away.
+4. When a game ends (the result shows, or you leave the board or the Chess.com app), the board goes away about 10 seconds later.
 
 **If nothing shows up:** open Chess Relay while a game is on screen in Chess.com (switch to it and straight back). Look at **Board found on the Chess.com screen**. If it says "No game board with a clock on this screen" while a game is open, the app can't read the board the way Chess.com shows it. Tap **Copy what it read** and send that text to whoever is maintaining the app, so the reader can be adjusted.
 

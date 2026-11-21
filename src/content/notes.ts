@@ -13,6 +13,8 @@ export interface Note {
   hint: string;
   /** An image file (shown as a picture in its window) rather than text. */
   image?: { src: string; thumb: string; alt: string; w: number; h: number };
+  /** A video file (plays in its window). Upright phone video; `thumb` is a still from it. */
+  video?: { src: string; poster: string; thumb: string; label: string };
   /** Files in a group sit together on the page. */
   group: "experience" | "about";
 }
@@ -138,6 +140,35 @@ export const notes: Note[] = [
       "04 Testing  Put it in front of real people and fix what they trip on. Then again after it's built.",
       "05 Engineering  Build it properly: fast, accessible and checked on a real phone.",
       "06 Ship  Launch it, watch what happens and keep improving it.",
+    ],
+  },
+  {
+    id: "chess-demo-video",
+    hint: "watch my live chess board",
+    group: "about",
+    file: "chess-demo.mov",
+    heading: "Live chess demo",
+    lines: [],
+    video: {
+      src: "/about/chess-demo.mp4",
+      poster: "/about/chess-demo-poster.jpg",
+      thumb: "/about/chess-demo-thumb.jpg",
+      label: "A chess game on my phone showing up live, move by move, on the home page of this site",
+    },
+  },
+  {
+    id: "chess-demo-text",
+    hint: "read how the live chess works",
+    group: "about",
+    file: "chess-demo.txt",
+    heading: "Live chess on my portfolio",
+    meta: "Side project · November 2026",
+    lines: [
+      "When I play chess on my phone, the game shows up live on the home page of this site. Each move lands on the board a second or so after I play it, and when the game ends the board quietly goes away.",
+      "Chess.com doesn't share live games with other sites, so I built a small Android app to do it. Chess.com names every square of its board for people using screen readers, like \"White Knight on f3\". My app reads those names, works out the position and sends it to my website.",
+      "The website works out which move was played from one position to the next, so the pieces slide across the board instead of jumping. Everyone visiting sees the same game at the same moment, however many people are watching.",
+      "I designed the board and pieces to fit the rest of the site: soft greys, a little 3D shading, and a window you can drag around and resize. My opponent always goes by the name \"Probably a genius\".",
+      "The app only reads what's on screen. It never touches the game itself.",
     ],
   },
 ];

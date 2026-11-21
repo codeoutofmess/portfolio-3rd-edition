@@ -9,13 +9,13 @@ import { Chess } from "chess.js";
 // a position it can't reach that way (a new game, or one picked up halfway) starts the record afresh from there.
 // Also accepted, for testing and older app versions: {"status":"new","color"}, {"ply":23,"move":"Nxe5"},
 // {"status":"playing"}.
-// Every position or move keeps the board up for 45 minutes in case "done" never comes; "done" cuts that to 2 minutes,
-// so a quick app switch mid-game doesn't hide the board. Everyone else can GET the game.
+// Every position or move keeps the board up for 45 minutes in case "done" never comes; "done" cuts that to 10 seconds.
+// (A quick app switch mid-game sends "done" too, but coming back re-sends the position, which brings the board back.) Everyone else can GET the game.
 // Stored in Upstash Redis (added through Vercel's Storage tab, which sets the URL and token below).
 export const dynamic = "force-dynamic";
 
 const PLAYING_MS = 45 * 60 * 1000;
-const GRACE_MS = 2 * 60 * 1000;
+const GRACE_MS = 10 * 1000;
 const KEY = "chess-game";
 const START = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR";
 const BOARD = /^([pnbrqkPNBRQK1-8]{1,8}\/){7}[pnbrqkPNBRQK1-8]{1,8}$/;
@@ -37,8 +37,9 @@ async function redis(command: string[]) {
     body: JSON.stringify(command),
     cache: "no-store",
   });
-  if (!res.ok) throw new Error(`Upstash ${res.status}`);
-  return (await res.json()).result;
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok || data.error) throw new Error(`Upstash ${res.status}: ${data.error ?? "no reason given"}`);
+  return data.result;
 }
 
 async function read(): Promise<Game> {
@@ -173,7 +174,9 @@ export async function POST(request: Request) {
       return reply({ error: 'Send {"board":"...","color":"white"} or {"status":"done"}.' }, 400);
     }
     return reply({ ok: true });
-  } catch {
-    return reply({ error: "Couldn't save the game." }, 502);
+  } catch (err) {
+    // Only the phone (which has the password) gets this far, so it can see why.
+    console.error("chess-status POST failed:", err);
+    return reply({ error: `Couldn't save the game: ${err instanceof Error ? err.message : String(err)}` }, 502);
   }
 }

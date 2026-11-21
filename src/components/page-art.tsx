@@ -38,3 +38,22 @@ export function ImageTile({ src, w, strong }: { src: string; w: number; strong?:
     />
   );
 }
+
+/** A video file, the way macOS shows one: a still from it in a white frame, with a small play mark. Upright (phone) video. */
+export function VideoTile({ src, h, strong }: { src: string; h: number; strong?: boolean }) {
+  return (
+    <span className="relative block" style={{ height: h, aspectRatio: "9 / 16" }}>
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src={src}
+        alt=""
+        draggable={false}
+        className={`block h-full w-full rounded-[3px] border-[3px] border-white bg-white object-cover shadow-[0_4px_10px_-2px_rgba(0,0,0,0.5),0_0_0_1px_rgba(0,0,0,0.12)] ${strong ? "outline outline-2 outline-ink/50" : ""}`}
+      />
+      <span
+        aria-hidden
+        className="absolute left-1/2 top-1/2 h-0 w-0 -translate-x-[35%] -translate-y-1/2 border-y-[6px] border-l-[10px] border-y-transparent border-l-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.6)]"
+      />
+    </span>
+  );
+}

@@ -40,6 +40,44 @@ function ImageView({ image, open }: { image: NonNullable<Note["image"]>; open: b
   );
 }
 
+/** A video file's window content: the video as big as fits, playing on a loop (it has no sound) once the window opens. */
+function VideoView({ video, open }: { video: NonNullable<Note["video"]>; open: boolean }) {
+  const shown = useReveal(open);
+  const ref = useRef<HTMLVideoElement>(null);
+  const [seen, setSeen] = useState(false);
+  if (open && !seen) setSeen(true); // only starts loading once someone opens it
+  useEffect(() => {
+    const v = ref.current;
+    if (!v) return;
+    if (open) v.play().catch(() => {}); // a browser that blocks autoplay still shows the play button
+    else v.pause();
+  }, [open, seen]);
+  return (
+    <div className="grid min-h-0 flex-1 place-items-center overflow-hidden px-5 pb-6 pt-4 max-md:px-2 max-md:pb-2 max-md:pt-2">
+      <div
+        className={`h-full min-h-0 transition-[opacity,transform] duration-500 ease-out motion-reduce:scale-100 ${shown ? "scale-100 opacity-100" : "scale-[0.96] opacity-0"}`}
+        style={{ transitionDelay: shown ? "120ms" : "0ms" }}
+      >
+        {seen && (
+          <video
+            ref={ref}
+            src={video.src}
+            poster={video.poster}
+            aria-label={video.label}
+            controls
+            muted
+            loop
+            playsInline
+            preload="metadata"
+            className="card-lift block h-[64svh] max-h-full w-auto max-w-full rounded-[3px] bg-black object-contain max-md:h-[calc(50svh_-_0.27*var(--dial)_-_132px)]"
+            style={{ aspectRatio: "9 / 16" }}
+          />
+        )}
+      </div>
+    </div>
+  );
+}
+
 /** Two fingers pinch it bigger (up to 4 times) and one finger moves it around once it's zoomed; a double tap zooms in or back out. */
 function PinchZoom({ open, children }: { open: boolean; children: React.ReactNode }) {
   const box = useRef<HTMLDivElement>(null);
@@ -128,6 +166,8 @@ export function NoteWindow({ note, open, slot, z, anchor, onClose, onFocus }: { 
     <PanelWindow open={open} slot={slot} z={z} anchor={anchor} modal onFocus={onFocus} onClose={onClose} title={note.file} label={`${note.file}`} mono>
       {note.image ? (
         <ImageView image={note.image} open={open} />
+      ) : note.video ? (
+        <VideoView video={note.video} open={open} />
       ) : (
         <div className="min-h-0 flex-1 overflow-y-auto px-5 pb-5 pt-4 text-[13px] leading-[1.6] font-medium">
           <p className="font-bold">{note.heading}</p>
