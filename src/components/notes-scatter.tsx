@@ -25,8 +25,6 @@ const CLUSTER = {
     [-1.95, -0.45],
     [0.25, 0.85],
     [2.3, -0.5],
-    [-0.35, -1.85], // chess-demo.mov
-    [1.45, -1.75], // chess-demo.txt
   ],
 } as const;
 

@@ -4,7 +4,7 @@ import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
-import { notes } from "@/content/notes";
+import { landingNotes, notes } from "@/content/notes";
 import { HomeChrome } from "@/components/home-chrome";
 import type { Anchor } from "@/components/panel-window";
 import type { WorkItem } from "@/components/work-scatter";
@@ -22,6 +22,7 @@ const load = {
   contact: () => import("@/components/contact-window").then((m) => m.ContactWindow),
   notes: () => import("@/components/notes-scatter").then((m) => m.NotesScatter),
   note: () => import("@/components/note-window").then((m) => m.NoteWindow),
+  landing: () => import("@/components/landing-files").then((m) => m.LandingFiles),
   work: () => import("@/components/work-scatter").then((m) => m.WorkScatter),
 };
 const AboutWindow = dynamic(load.about, { ssr: false });
@@ -29,6 +30,7 @@ const CatchMe = dynamic(load.catchMe, { ssr: false });
 const ContactWindow = dynamic(load.contact, { ssr: false });
 const NotesScatter = dynamic(load.notes, { ssr: false });
 const NoteWindow = dynamic(load.note, { ssr: false });
+const LandingFiles = dynamic(load.landing, { ssr: false });
 const WorkScatter = dynamic(load.work, { ssr: false });
 
 type Option = { id: string; label: string; angle: number; href?: string; filter?: Discipline };
@@ -252,7 +254,7 @@ export function DialMenu({ items }: { items: WorkItem[] }) {
     setPanelDelay(workOpen ? CONFIG.folderExit : 0);
     if (id === "contact") setContactOpened(true);
     if (id === "about") setAboutOpened(true);
-    if (id !== "about") setWins([]);
+    if (id !== path[0]) setWins([]); // a new view closes the file windows of the last one
     if (id === "archive") setOpened(true);
     if (id === "work") {
       // Open the outer ring centred on Work's current position.
@@ -489,6 +491,34 @@ export function DialMenu({ items }: { items: WorkItem[] }) {
       </svg>
 
       <HomeChrome landing={path.length === 0} />
+      {client && (
+        <>
+          <LandingFiles
+            notes={landingNotes}
+            open={path.length === 0}
+            openIds={wins}
+            onOpen={(id, from) => {
+              if (!wins.includes(id)) {
+                sound.select();
+                setAnchors((a) => ({ ...a, [id]: { x: from.left, y: from.top, w: from.width, h: from.height, r1: Math.random(), r2: Math.random() } }));
+              }
+              focusNote(id);
+            }}
+          />
+          {landingNotes.map((n) => (
+            <NoteWindow
+              key={n.id}
+              note={n}
+              open={path.length === 0 && wins.includes(n.id)}
+              slot={slots[n.id] ?? 0}
+              z={21 + wins.indexOf(n.id)}
+              anchor={anchors[n.id]}
+              onFocus={() => focusNote(n.id)}
+              onClose={() => setWins((w) => w.filter((x) => x !== n.id))}
+            />
+          ))}
+        </>
+      )}
       {client && <CatchMe />}
       {client && aboutOpened && (
         <>

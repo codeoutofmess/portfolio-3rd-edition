@@ -3,6 +3,8 @@
 import { useEffect, useState } from "react";
 import { ChessBoard } from "@/components/chess-board";
 import { PanelWindow, usePanelLayout } from "@/components/panel-window";
+import { landingSpot } from "@/components/landing-files";
+import { landingNotes } from "@/content/notes";
 
 const FAST_MS = 1_000; // while I'm playing, so moves land within about a second
 const SLOW_MS = 5_000; // otherwise, to notice a game starting within a few seconds
@@ -69,11 +71,11 @@ function ChessWindow({ game, open, onClose }: { game: Game; open: boolean; onClo
   let spot;
   if (room - 60 >= 160) {
     const width = Math.min(300, room - 60);
-    spot = {
-      left: Math.round((room - width) / 2 + nudge.x),
-      top: Math.round(Math.max(72, Math.min(H - width - BAR - 72, H / 2 - (width + BAR) / 2 + nudge.y))),
-      width,
-    };
+    // The chess demo files sit above it on this side: keep clear of them, unless the screen is too short for both.
+    const files = landingSpot(W, H, dial, landingNotes);
+    const below = files.beside ? files.y + files.fh + 24 : 72;
+    const top = Math.max(below, Math.min(H - width - BAR - 72, H / 2 - (width + BAR) / 2 + nudge.y));
+    spot = { left: Math.round((room - width) / 2 + nudge.x), top: Math.round(Math.min(top, H - width - BAR - 16)), width };
   } else {
     const top = H / 2 + dial + 12;
     const footer = W >= 640 ? 132 : 112; // the edition and availability labels along the bottom

@@ -69,7 +69,7 @@ function VideoView({ video, open }: { video: NonNullable<Note["video"]>; open: b
             loop
             playsInline
             preload="metadata"
-            className="card-lift block h-[64svh] max-h-full w-auto max-w-full rounded-[3px] bg-black object-contain max-md:h-[calc(50svh_-_0.27*var(--dial)_-_132px)]"
+            className="card-lift block h-[64svh] max-h-full w-auto max-w-full rounded-[3px] bg-black object-contain max-md:h-[56svh]"
             style={{ aspectRatio: "9 / 16" }}
           />
         )}

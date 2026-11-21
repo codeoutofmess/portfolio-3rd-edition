@@ -16,7 +16,7 @@ export interface Note {
   /** A video file (plays in its window). Upright phone video; `thumb` is a still from it. */
   video?: { src: string; poster: string; thumb: string; label: string };
   /** Files in a group sit together on the page. */
-  group: "experience" | "about";
+  group: "experience" | "about" | "landing";
 }
 
 export const notes: Note[] = [
@@ -142,10 +142,14 @@ export const notes: Note[] = [
       "06 Ship  Launch it, watch what happens and keep improving it.",
     ],
   },
+];
+
+/** Files on the landing view, beside the dial: the live chess demo. */
+export const landingNotes: Note[] = [
   {
     id: "chess-demo-video",
     hint: "watch my live chess board",
-    group: "about",
+    group: "landing",
     file: "chess-demo.mov",
     heading: "Live chess demo",
     lines: [],
@@ -159,7 +163,7 @@ export const notes: Note[] = [
   {
     id: "chess-demo-text",
     hint: "read how the live chess works",
-    group: "about",
+    group: "landing",
     file: "chess-demo.txt",
     heading: "Live chess on my portfolio",
     meta: "Side project · November 2026",
